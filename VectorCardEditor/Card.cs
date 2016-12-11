@@ -28,6 +28,7 @@ namespace VectorCardEditor
             Shape = new EllipseShape();
             Shape.Load(node);
             Shape.Draw(g);
+            var b = 0;
         }
 
         public void LoadCard(string path)
