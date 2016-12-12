@@ -15,7 +15,13 @@ namespace VectorCardEditor
         double RX;
         double RY;
 
-        public EllipseShape() { }
+        public EllipseShape(double width, double heigth)
+        {
+            RX = width / 2;
+            RY = heigth / 2;
+            CX = width / 2;
+            CY = heigth / 2;
+        }
 
         public override void Load(XmlNode node)
         {
@@ -24,25 +30,33 @@ namespace VectorCardEditor
             CY = double.Parse(node.Attributes["cy"].Value);
             RX = double.Parse(node.Attributes["rx"].Value);
             RY = double.Parse(node.Attributes["ry"].Value);
+
+            ParseStyle(Style);
         }
 
         public override void Save(XmlDocument doc)
         {
             var node = doc.CreateElement("ellipse");
-            node.SetAttribute("style", Style);
+            node.SetAttribute("style", GenerateStyle());
             node.SetAttribute("cx", CX.ToString());
             node.SetAttribute("cy", CY.ToString());
             node.SetAttribute("rx", RX.ToString());
             node.SetAttribute("ry", RY.ToString());
 
             doc.DocumentElement.SelectSingleNode("/svg/g").AppendChild(node);
-
-            //doc.AppendChild(node);
         }
-        public override void Draw(Graphics g)
+
+        public override void Draw(Graphics g, Point origin)
         {
-            var rect = new Rectangle(0,0,(int)RX,(int)RY);
-            g.FillEllipse(Brushes.Red,rect);
+            var rect = new Rectangle(origin.X, origin.Y, (int)RX * 2, (int)RY * 2);
+            var brush = new SolidBrush(FillColor);
+            g.FillEllipse(brush, rect);
+
+            if (StrokeColor != null)
+            {
+                var pen = new Pen(StrokeColor, (float)StrokeWidth);
+                g.DrawEllipse(pen, rect);
+            }
         }
     }
 }
