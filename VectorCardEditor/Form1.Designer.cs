@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.ShapeButton = new System.Windows.Forms.Button();
             this.TextButton = new System.Windows.Forms.Button();
             this.ColorButton = new System.Windows.Forms.Button();
             this.StrokeButton = new System.Windows.Forms.Button();
@@ -40,6 +39,7 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ShapeButton = new System.Windows.Forms.Button();
             this.ShapePanel = new System.Windows.Forms.Panel();
             this.EllipseButton = new System.Windows.Forms.Button();
             this.RectangleButton = new System.Windows.Forms.Button();
@@ -57,18 +57,9 @@
             this.BottomPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // ShapeButton
-            // 
-            this.ShapeButton.Image = ((System.Drawing.Image)(resources.GetObject("ShapeButton.Image")));
-            this.ShapeButton.Location = new System.Drawing.Point(3, 3);
-            this.ShapeButton.Name = "ShapeButton";
-            this.ShapeButton.Size = new System.Drawing.Size(32, 32);
-            this.ShapeButton.TabIndex = 0;
-            this.ShapeButton.UseVisualStyleBackColor = true;
-            this.ShapeButton.Click += new System.EventHandler(this.ShapeButton_Click);
-            // 
             // TextButton
             // 
+            this.TextButton.Image = ((System.Drawing.Image)(resources.GetObject("TextButton.Image")));
             this.TextButton.Location = new System.Drawing.Point(3, 39);
             this.TextButton.Name = "TextButton";
             this.TextButton.Size = new System.Drawing.Size(32, 32);
@@ -77,6 +68,8 @@
             // 
             // ColorButton
             // 
+            this.ColorButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ColorButton.Image = ((System.Drawing.Image)(resources.GetObject("ColorButton.Image")));
             this.ColorButton.Location = new System.Drawing.Point(3, 77);
             this.ColorButton.Name = "ColorButton";
             this.ColorButton.Size = new System.Drawing.Size(32, 32);
@@ -117,12 +110,14 @@
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
@@ -145,6 +140,17 @@
             this.panel1.Size = new System.Drawing.Size(38, 337);
             this.panel1.TabIndex = 6;
             // 
+            // ShapeButton
+            // 
+            this.ShapeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ShapeButton.Image = ((System.Drawing.Image)(resources.GetObject("ShapeButton.Image")));
+            this.ShapeButton.Location = new System.Drawing.Point(3, 3);
+            this.ShapeButton.Name = "ShapeButton";
+            this.ShapeButton.Size = new System.Drawing.Size(32, 32);
+            this.ShapeButton.TabIndex = 0;
+            this.ShapeButton.UseVisualStyleBackColor = true;
+            this.ShapeButton.Click += new System.EventHandler(this.ShapeButton_Click);
+            // 
             // ShapePanel
             // 
             this.ShapePanel.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -158,6 +164,7 @@
             // 
             // EllipseButton
             // 
+            this.EllipseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.EllipseButton.Image = ((System.Drawing.Image)(resources.GetObject("EllipseButton.Image")));
             this.EllipseButton.Location = new System.Drawing.Point(3, 39);
             this.EllipseButton.Name = "EllipseButton";
@@ -168,13 +175,15 @@
             // 
             // RectangleButton
             // 
+            this.RectangleButton.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.RectangleButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.RectangleButton.Image = ((System.Drawing.Image)(resources.GetObject("RectangleButton.Image")));
             this.RectangleButton.Location = new System.Drawing.Point(3, 3);
             this.RectangleButton.Name = "RectangleButton";
             this.RectangleButton.Size = new System.Drawing.Size(32, 32);
             this.RectangleButton.TabIndex = 8;
             this.RectangleButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.RectangleButton.UseVisualStyleBackColor = true;
+            this.RectangleButton.UseVisualStyleBackColor = false;
             this.RectangleButton.Click += new System.EventHandler(this.RectangleButton_Click);
             // 
             // colorDialog1

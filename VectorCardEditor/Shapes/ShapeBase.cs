@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using System.Drawing;
 namespace VectorCardEditor
 {
@@ -8,7 +9,7 @@ namespace VectorCardEditor
         Ellipse = 1
     }
 
-
+    [Serializable]
     public abstract class ShapeBase
     {
         public Color FillColor { get; set; }

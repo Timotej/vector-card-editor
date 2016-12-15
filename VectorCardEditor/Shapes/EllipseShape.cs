@@ -7,6 +7,7 @@ using System.Xml;
 
 namespace VectorCardEditor
 {
+    [Serializable]
     class EllipseShape : ShapeBase
     {
         string Style;

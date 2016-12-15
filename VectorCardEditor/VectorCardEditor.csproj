@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Card.cs" />
+    <Compile Include="CardsManager.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,26 +81,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="Resources\ellipse1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ellipse.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pallete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\rectangle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\rectangle1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\rectangle2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ellipse2.png" />
+    <None Include="Resources\rect.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

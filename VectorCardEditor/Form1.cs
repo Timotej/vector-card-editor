@@ -12,16 +12,18 @@ namespace VectorCardEditor
     public partial class Form1 : Form
     {
         ShapeType CurrentSelectedShape;
-        List<Card> CardsList = new List<Card>();
-        List<Card> SelectedCards = new List<Card>();
         Color CurrentColor = Color.White;
 
+        CardsManager Manager = new CardsManager();
+ 
         public Form1()
         {
             InitializeComponent();
             DoubleBuffered = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             colorDialog1.AllowFullOpen = true;
+
+           
 
             var c = new Card(200, 200);
             c.OriginPoint = new Point(100, 100);
@@ -38,9 +40,9 @@ namespace VectorCardEditor
             b.ShowGrid = true;
             b.Shape = new EllipseShape(200, 200);
 
-            CardsList.Add(a);
-            CardsList.Add(b);
-            CardsList.Add(c);
+            Manager.CardsList.Add(a);
+            Manager.CardsList.Add(b);
+            Manager.CardsList.Add(c);
 
             toolTip1.SetToolTip(this.StrokeButton, "Set stroke for cards");
             toolTip1.SetToolTip(this.TextButton, "Add and edit text in cards");
@@ -53,11 +55,7 @@ namespace VectorCardEditor
             base.OnPaint(e);
             var graphics = e.Graphics;
 
-
-            foreach (var card in CardsList)
-            {
-                card.DrawCard(graphics);
-            }
+            Manager.DrawAllCards(graphics);
         }
 
         #region ShapeButtons
@@ -71,12 +69,12 @@ namespace VectorCardEditor
         {
             CurrentSelectedShape = ShapeType.Ellipse;
             ShapePanel.Visible = false;
-            foreach (var item in SelectedCards)
+            foreach (var item in Manager.SelectedCardsList)
             {
                 item.Shape = new EllipseShape(item.Width, item.Height);
                 item.Shape.FillColor = CurrentColor;
             }
-
+            ShapeButton.Image = EllipseButton.Image;
             Refresh();
         }
 
@@ -84,12 +82,13 @@ namespace VectorCardEditor
         {
             CurrentSelectedShape = ShapeType.Rectangle;
             ShapePanel.Visible = false;
-            foreach (var item in SelectedCards)
+            foreach (var item in Manager.SelectedCardsList)
             {
                 item.Shape = new RectangleShape(item.Width, item.Height);
                 item.Shape.FillColor = CurrentColor;
             }
-
+            ShapeButton.Image = RectangleButton.Image;
+            
             Refresh();
         }
 
@@ -102,9 +101,10 @@ namespace VectorCardEditor
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 ColorButton.BackColor = colorDialog1.Color;
+
                 CurrentColor = colorDialog1.Color;
             }
-            foreach (var item in SelectedCards)
+            foreach (var item in Manager.SelectedCardsList)
             {
                 item.Shape.FillColor = CurrentColor;
             }
@@ -128,7 +128,7 @@ namespace VectorCardEditor
 
             if (e.Button == MouseButtons.Left && (ModifierKeys & Keys.Control) == Keys.Control)
             {
-                foreach (var card in CardsList)
+                foreach (var card in Manager.CardsList)
                 {
                     var xTrue = Helpers.IsBetween(e.X, card.OriginPoint.X, card.OriginPoint.X + card.Width);
                     var yTrue = Helpers.IsBetween(e.Y, card.OriginPoint.Y, card.OriginPoint.Y + card.Width);
@@ -136,11 +136,11 @@ namespace VectorCardEditor
                     {
                         if (!card.Selected)
                         {
-                            SelectedCards.Add(card);
+                            Manager.SelectedCardsList.Add(card);
                         }
                         else
                         {
-                            SelectedCards.Remove(card);
+                            Manager.SelectedCardsList.Remove(card);
                         }
                         card.Selected = !card.Selected;
                         SomethingSelected = true;
@@ -149,12 +149,9 @@ namespace VectorCardEditor
             }
             else if (e.Button == MouseButtons.Left)
             {
-                foreach (var card in SelectedCards)
-                {
-                    card.Selected = false;
-                }
-                SelectedCards.Clear();
-                foreach (var card in CardsList)
+                Manager.DeselectAllCards();
+
+                foreach (var card in Manager.CardsList)
                 {
                     var xTrue = Helpers.IsBetween(e.X, card.OriginPoint.X, card.OriginPoint.X + card.Width);
                     var yTrue = Helpers.IsBetween(e.Y, card.OriginPoint.Y, card.OriginPoint.Y + card.Width);
@@ -162,7 +159,7 @@ namespace VectorCardEditor
                     {
                         if (!card.Selected)
                         {
-                            SelectedCards.Add(card);
+                            Manager.SelectedCardsList.Add(card);
                         }
                         card.Selected = !card.Selected;
                         SomethingSelected = true;
@@ -172,11 +169,11 @@ namespace VectorCardEditor
 
             if (!SomethingSelected)
             {
-                foreach (var card in CardsList)
+                foreach (var card in Manager.CardsList)
                 {
                     card.Selected = false;
                 }
-                SelectedCards.Clear();
+                Manager.SelectedCardsList.Clear();
             }
         }
 
@@ -192,11 +189,11 @@ namespace VectorCardEditor
         {
             if (e.Control && e.KeyCode == Keys.A)
             {
-                SelectedCards.Clear();
-                foreach (var card in CardsList)
+                Manager.SelectedCardsList.Clear();
+                foreach (var card in Manager.CardsList)
                 {
                     card.Selected = true;
-                    SelectedCards.Add(card);
+                    Manager.SelectedCardsList.Add(card);
                 }
             }
         }
@@ -205,33 +202,13 @@ namespace VectorCardEditor
         {
             if (e.KeyCode == Keys.Delete)
             {
-                foreach (var card in SelectedCards)
-                {
-                    CardsList.Remove(card);
-                }
-                SelectedCards.Clear();
+                Manager.DeleteSelectedCards();
             }
         }
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-
-            saveFileDialog1.FilterIndex = 2;
-            saveFileDialog1.RestoreDirectory = true;
-            
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                if (saveFileDialog1.FileName != "")
-                {   
-                    Directory.CreateDirectory(saveFileDialog1.FileName);
-                    var path = Path.GetFileName(saveFileDialog1.FileName);
-                    for (int i=0; i< CardsList.Count; i++)
-                    {
-                        CardsList[i].SaveCard(saveFileDialog1.FileName + "\\" + path + (i + 1) + ".svg");
-                    }
-                }
-            }
+            Manager.SaveAsSVG();
         }
 
         private void GenerateCardButton_Click(object sender, EventArgs e)
@@ -244,8 +221,15 @@ namespace VectorCardEditor
             if (widthOK && heightOk)
             {
                 var card = new Card(width, height);
-                var last = CardsList[CardsList.Count - 1];
-                card.OriginPoint = new Point((int)(last.OriginPoint.X + last.Width + 5), last.OriginPoint.Y);
+                if (Manager.CardsList.Count > 0)
+                {
+                    var last = Manager.CardsList[Manager.CardsList.Count - 1];
+                    card.OriginPoint = new Point((int)(last.OriginPoint.X + last.Width + 10), last.OriginPoint.Y);
+                }
+                else
+                {
+                    card.OriginPoint = new Point(100, 100);
+                }
                 if (CurrentSelectedShape == ShapeType.Ellipse)
                 {
                     card.Shape = new EllipseShape(card.Width, card.Height);
@@ -256,9 +240,24 @@ namespace VectorCardEditor
                 }
                 card.Shape.FillColor = CurrentColor;
                 card.ShowGrid = true;
-                CardsList.Add(card);
+                Manager.CardsList.Add(card);
+            }
+            else
+            {
+                MessageBox.Show("Wrong input");
             }
             
+            Refresh();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Manager.SaveAsSingleFile();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Manager.OpenSingleFile();
             Refresh();
         }
     }
