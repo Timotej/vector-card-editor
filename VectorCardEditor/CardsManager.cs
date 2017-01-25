@@ -122,5 +122,21 @@ namespace VectorCardEditor
             }
             SelectedCardsList.Clear();
         }
+
+        public void MoveAllSelectedCardsByVector(Point vector)
+        {
+            foreach (var item in SelectedCardsList)
+            {
+                item.MoveByVector(vector);
+            }
+        }
+
+        public void StopEditingAll()
+        {
+            foreach (var item in CardsList)
+            {
+                item.StopEdit();
+            }
+        }
     }
 }

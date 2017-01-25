@@ -51,6 +51,7 @@
             this.HeightLabel = new System.Windows.Forms.Label();
             this.WidthLabel = new System.Windows.Forms.Label();
             this.GenerateCardButton = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.ShapePanel.SuspendLayout();
@@ -65,6 +66,7 @@
             this.TextButton.Size = new System.Drawing.Size(32, 32);
             this.TextButton.TabIndex = 1;
             this.TextButton.UseVisualStyleBackColor = true;
+            this.TextButton.Click += new System.EventHandler(this.TextButton_Click);
             // 
             // ColorButton
             // 
@@ -250,6 +252,11 @@
             this.GenerateCardButton.UseVisualStyleBackColor = true;
             this.GenerateCardButton.Click += new System.EventHandler(this.GenerateCardButton_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -266,6 +273,9 @@
             this.Text = "Vector Card Editor";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
+            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDoubleClick);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -300,6 +310,7 @@
         private System.Windows.Forms.Label HeightLabel;
         private System.Windows.Forms.Label WidthLabel;
         private System.Windows.Forms.Button GenerateCardButton;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }
 

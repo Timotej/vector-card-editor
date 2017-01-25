@@ -25,7 +25,7 @@ namespace VectorCardEditor
 
            
 
-            var c = new Card(200, 200);
+           /* var c = new Card(200, 200);
             c.OriginPoint = new Point(100, 100);
             c.ShowGrid = true;
             c.Shape = new EllipseShape(200, 200);
@@ -42,7 +42,7 @@ namespace VectorCardEditor
 
             Manager.CardsList.Add(a);
             Manager.CardsList.Add(b);
-            Manager.CardsList.Add(c);
+            Manager.CardsList.Add(c);*/
 
             toolTip1.SetToolTip(this.StrokeButton, "Set stroke for cards");
             toolTip1.SetToolTip(this.TextButton, "Add and edit text in cards");
@@ -113,11 +113,11 @@ namespace VectorCardEditor
         }
 
         #endregion
-
+        Point ClickStartPoint;
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             HandleMouseSelection(e);
-
+            Manager.StopEditingAll();
             Refresh();
         }
 
@@ -240,6 +240,7 @@ namespace VectorCardEditor
                 }
                 card.Shape.FillColor = CurrentColor;
                 card.ShowGrid = true;
+                card.AddLabel(this);
                 Manager.CardsList.Add(card);
             }
             else
@@ -258,7 +259,70 @@ namespace VectorCardEditor
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Manager.OpenSingleFile();
+            foreach (var item in Manager.CardsList)
+            {
+                item.AddLabel(this);
+            }
             Refresh();
+        }
+
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            ProcessObjectMove(e);    
+        }
+
+        private void ProcessObjectMove(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && Manager.SelectedCardsList.Count > 0)
+            {
+                bool isInside = false;
+                foreach (var item in Manager.SelectedCardsList)
+                {
+                    if (item.IsInside(ClickStartPoint))
+                    {
+                        isInside = true;
+                        break;
+                    }
+                }
+                if (isInside)
+                {
+                    var vector = new Point(e.X - ClickStartPoint.X, e.Y - ClickStartPoint.Y);
+                    Manager.MoveAllSelectedCardsByVector(vector);
+                    ClickStartPoint = e.Location;
+                }
+            }
+            Refresh();
+        }
+
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ClickStartPoint = e.Location;
+            }
+        }
+
+        private void Form1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                foreach (var item in Manager.CardsList)
+                {
+                    if (item.IsInsideTextBox(e.Location))
+                    {
+                        item.SwitchTextEdit();
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void TextButton_Click(object sender, EventArgs e)
+        {
+            foreach (var item in Manager.SelectedCardsList)
+            {
+                item.StartEdit();
+            }
         }
     }
 }
