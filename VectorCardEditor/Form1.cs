@@ -14,6 +14,9 @@ namespace VectorCardEditor
         ShapeType CurrentSelectedShape;
         Color CurrentColor = Color.White;
 
+        Font CurrentFont = new Font(new FontFamily("Arial"), 12);
+        Color FontColor = Color.Black;
+
         CardsManager Manager = new CardsManager();
  
         public Form1()
@@ -23,31 +26,22 @@ namespace VectorCardEditor
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             colorDialog1.AllowFullOpen = true;
 
-           
-
-           /* var c = new Card(200, 200);
-            c.OriginPoint = new Point(100, 100);
-            c.ShowGrid = true;
-            c.Shape = new EllipseShape(200, 200);
-
-            var a = new Card(200, 200);
-            a.OriginPoint = new Point(305, 100);
-            a.ShowGrid = true;
-            a.Shape = new EllipseShape(200, 200);
-
-            var b = new Card(200, 200);
-            b.OriginPoint = new Point(510, 100);
-            b.ShowGrid = true;
-            b.Shape = new EllipseShape(200, 200);
-
-            Manager.CardsList.Add(a);
-            Manager.CardsList.Add(b);
-            Manager.CardsList.Add(c);*/
-
             toolTip1.SetToolTip(this.StrokeButton, "Set stroke for cards");
             toolTip1.SetToolTip(this.TextButton, "Add and edit text in cards");
             toolTip1.SetToolTip(this.ShapeButton, "Choose shape");
             toolTip1.SetToolTip(this.ColorButton, "Choose color");
+
+            foreach (FontFamily oneFontFamily in FontFamily.Families)
+            {
+                comboBox1.Items.Add(oneFontFamily.Name);
+            }
+            comboBox1.Text = "Arial";
+
+            for (int i = 8; i <= 50; i += 2)
+            {
+                comboBox2.Items.Add(i);
+            }
+            comboBox2.Text = "8";
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -117,7 +111,6 @@ namespace VectorCardEditor
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             HandleMouseSelection(e);
-            Manager.StopEditingAll();
             Refresh();
         }
 
@@ -128,15 +121,17 @@ namespace VectorCardEditor
 
             if (e.Button == MouseButtons.Left && (ModifierKeys & Keys.Control) == Keys.Control)
             {
+                int i = 0;
                 foreach (var card in Manager.CardsList)
                 {
                     var xTrue = Helpers.IsBetween(e.X, card.OriginPoint.X, card.OriginPoint.X + card.Width);
-                    var yTrue = Helpers.IsBetween(e.Y, card.OriginPoint.Y, card.OriginPoint.Y + card.Width);
+                    var yTrue = Helpers.IsBetween(e.Y, card.OriginPoint.Y, card.OriginPoint.Y + card.Height);
                     if (xTrue && yTrue)
                     {
                         if (!card.Selected)
                         {
                             Manager.SelectedCardsList.Add(card);
+                            i++;
                         }
                         else
                         {
@@ -146,6 +141,7 @@ namespace VectorCardEditor
                         SomethingSelected = true;
                     }
                 }
+                Console.WriteLine(i);
             }
             else if (e.Button == MouseButtons.Left)
             {
@@ -154,7 +150,7 @@ namespace VectorCardEditor
                 foreach (var card in Manager.CardsList)
                 {
                     var xTrue = Helpers.IsBetween(e.X, card.OriginPoint.X, card.OriginPoint.X + card.Width);
-                    var yTrue = Helpers.IsBetween(e.Y, card.OriginPoint.Y, card.OriginPoint.Y + card.Width);
+                    var yTrue = Helpers.IsBetween(e.Y, card.OriginPoint.Y, card.OriginPoint.Y + card.Height);
                     if (xTrue && yTrue)
                     {
                         if (!card.Selected)
@@ -213,11 +209,11 @@ namespace VectorCardEditor
 
         private void GenerateCardButton_Click(object sender, EventArgs e)
         {
-            double width;
-            double height;
-            var widthOK = double.TryParse(WidthTextBox.Text, out width);
-            var heightOk = double.TryParse(HeightTextBox.Text, out height);
-
+            /*double width = 100;
+            double height = 100;
+            var widthOK = true;
+            var heightOk = true;
+            Console.WriteLine(textBox1.Text);
             if (widthOK && heightOk)
             {
                 var card = new Card(width, height);
@@ -248,6 +244,47 @@ namespace VectorCardEditor
                 MessageBox.Show("Wrong input");
             }
             
+            Refresh();*/
+            Manager.DeleteAllCards();
+
+            var text = textBox1.Text;
+            var split = text.Split('\n');
+
+            var width = 0f;
+            var height = 0f;
+
+            var g = CreateGraphics();
+            foreach (var item in split)
+            {
+                var size = g.MeasureString(item, CurrentFont);
+                if (size.Width > width) width = size.Width;
+                if (size.Height > height) height = size.Height;
+            }
+            width += 20f;
+            height += 20f;
+
+            for (int i = 0; i<split.Length; i++)
+            {
+                var card = new Card(width, height);
+                card.OriginPoint = new Point(300, 100 + (((int)height + 5) * i));
+                if (CurrentSelectedShape == ShapeType.Ellipse)
+                {
+                    card.Shape = new EllipseShape(card.Width, card.Height);
+                }
+                else if (CurrentSelectedShape == ShapeType.Rectangle)
+                {
+                    card.Shape = new RectangleShape(card.Width, card.Height);
+                }
+                card.Shape.FillColor = CurrentColor;
+                card.ShowGrid = true;
+                card.Text = split[i];
+                card.FontType = CurrentFont;
+                card.FontColor = FontColor;
+                card.FontSize = g.MeasureString(split[i], CurrentFont);
+                Manager.CardsList.Add(card);
+            }
+
+
             Refresh();
         }
 
@@ -259,10 +296,6 @@ namespace VectorCardEditor
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Manager.OpenSingleFile();
-            foreach (var item in Manager.CardsList)
-            {
-                item.AddLabel(this);
-            }
             Refresh();
         }
 
@@ -302,26 +335,42 @@ namespace VectorCardEditor
             }
         }
 
-        private void Form1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                foreach (var item in Manager.CardsList)
-                {
-                    if (item.IsInsideTextBox(e.Location))
-                    {
-                        item.SwitchTextEdit();
-                        break;
-                    }
-                }
-            }
-        }
-
         private void TextButton_Click(object sender, EventArgs e)
         {
-            foreach (var item in Manager.SelectedCardsList)
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var text = comboBox1.Text;
+
+            int size = 0;
+            var success = int.TryParse(comboBox2.Text, out size);
+            if (!success) size = 12;
+
+            CurrentFont = new Font(new FontFamily(text), size);
+            textBox1.Font = CurrentFont;
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var text = comboBox1.Text;
+
+            int size = 0;
+            var success = int.TryParse(comboBox2.Text, out size);
+            if (!success) size = 12;
+
+            CurrentFont = new Font(new FontFamily(text), size);
+            textBox1.Font = CurrentFont;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var dialog = new ColorDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                item.StartEdit();
+                FontColorButton.BackColor = dialog.Color;
+
+                FontColor = dialog.Color;
             }
         }
     }

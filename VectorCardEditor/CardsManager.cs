@@ -114,6 +114,12 @@ namespace VectorCardEditor
             SelectedCardsList.Clear();
         }
 
+        public void DeleteAllCards()
+        {
+            SelectedCardsList.Clear();
+            CardsList.Clear();
+        }
+
         public void DeselectAllCards()
         {
             foreach (var card in SelectedCardsList)
@@ -128,14 +134,6 @@ namespace VectorCardEditor
             foreach (var item in SelectedCardsList)
             {
                 item.MoveByVector(vector);
-            }
-        }
-
-        public void StopEditingAll()
-        {
-            foreach (var item in CardsList)
-            {
-                item.StopEdit();
             }
         }
     }
