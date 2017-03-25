@@ -21,6 +21,7 @@ namespace VectorCardEditor
         public abstract void Load(XmlNode node);
         public abstract void Save(XmlDocument doc);
         public abstract void Draw(Graphics g, Point origin);
+        public abstract void Resize(double width, double height);
 
         protected virtual void ParseStyle(string style)
         {

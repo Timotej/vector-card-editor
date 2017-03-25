@@ -57,5 +57,11 @@ namespace VectorCardEditor
                 g.DrawRectangle(pen, rect);
             }
         }
+
+        public override void Resize(double width, double height)
+        {
+            Width = width;
+            Height = height;
+        }
     }
 }

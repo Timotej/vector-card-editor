@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Xml;
 using System.Windows.Forms;
 namespace VectorCardEditor
@@ -32,8 +30,8 @@ namespace VectorCardEditor
         {
             Shape.Draw(g, OriginPoint);
 
-            DrawText(g);
-
+            DrawText(g, OriginPoint);
+            
             if (ShowGrid)
             {
                 var rect = new Rectangle(OriginPoint, new Size((int)Width, (int)Height));
@@ -48,9 +46,9 @@ namespace VectorCardEditor
             }
         }
 
-        void DrawText(Graphics g)
+        void DrawText(Graphics g, Point originPoint)
         {
-            var rectF = new RectangleF(OriginPoint.X, OriginPoint.Y, (float)Width, (float)Height);
+            var rectF = new RectangleF(originPoint.X, originPoint.Y, (float)Width, (float)Height);
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
@@ -80,6 +78,17 @@ namespace VectorCardEditor
             Shape.Save(doc);
             SaveText(doc);
             doc.Save(file);
+        }
+
+        public void SaveAsPng(string file)
+        {
+            Bitmap b = new Bitmap((int)Width, (int)Height);
+            Graphics g = Graphics.FromImage(b);
+
+            Shape.Draw(g, new Point(0, 0));
+            DrawText(g, new Point(0, 0));
+
+            b.Save(file, ImageFormat.Png);
         }
 
         public void ChangeShape(ShapeBase shape)
@@ -122,6 +131,23 @@ namespace VectorCardEditor
             result += "letter-spacing:0px;";
             result += "fill:"+ColorTranslator.ToHtml(FontColor)+";";
             return result;
+        }
+
+        public bool IsInBottomRightCorner(Point p)
+        {
+            var bl = new Point(OriginPoint.X + (int)Width, OriginPoint.Y + (int)Height);
+
+            var x = p.X - bl.X;
+            var y = p.Y - bl.Y;
+            var dist = Math.Sqrt((x * x) + (y * y));
+            return dist < 15;
+        }
+
+        public void Resize(double width, double height)
+        {
+            Width = width;
+            Height = height;
+            Shape.Resize(width, height);
         }
     }
 }

@@ -47,6 +47,24 @@ namespace VectorCardEditor
             }
         }
 
+        public void SaveAsPNG()
+        {
+            FolderBrowserDialog saveFileDialog1 = new FolderBrowserDialog();
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if (saveFileDialog1.SelectedPath != "")
+                {
+                    Directory.CreateDirectory(saveFileDialog1.SelectedPath);
+                    var fileName = Path.GetFileName(saveFileDialog1.SelectedPath);
+                    for (int i = 0; i < CardsList.Count; i++)
+                    {
+                        CardsList[i].SaveAsPng(saveFileDialog1.SelectedPath + "\\" + fileName + (i + 1) + ".png");
+                    }
+                }
+            }
+        }
+
         public void SaveAsSingleFile()
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -134,6 +152,42 @@ namespace VectorCardEditor
             foreach (var item in SelectedCardsList)
             {
                 item.MoveByVector(vector);
+            }
+        }
+
+        public void ResizeAll(double width, double height)
+        {
+            foreach (var item in CardsList)
+            {
+                item.Resize(width, height);
+            }
+        }
+
+        public bool IsInBottomRightCorner(Point p)
+        {
+            foreach (var item in CardsList)
+            {
+                if (item.IsInBottomRightCorner(p))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void ColumnAlign()
+        {
+            for (int i = 0; i < CardsList.Count; i++)
+            {
+                CardsList[i].OriginPoint = new Point(300, 100 + (((int)CardsList[i].Height + 5) * i));
+            }
+        }
+
+        public void RowAlign()
+        {
+            for (int i = 0; i < CardsList.Count; i++)
+            {
+                CardsList[i].OriginPoint = new Point(300 + (((int)CardsList[i].Width + 5) * i), 100);
             }
         }
     }

@@ -16,12 +16,12 @@ namespace VectorCardEditor
         double RX;
         double RY;
 
-        public EllipseShape(double width, double heigth)
+        public EllipseShape(double width, double height)
         {
             RX = width / 2;
-            RY = heigth / 2;
+            RY = height / 2;
             CX = width / 2;
-            CY = heigth / 2;
+            CY = height / 2;
         }
 
         public override void Load(XmlNode node)
@@ -58,6 +58,14 @@ namespace VectorCardEditor
                 var pen = new Pen(StrokeColor, (float)StrokeWidth);
                 g.DrawEllipse(pen, rect);
             }
+        }
+
+        public override void Resize(double width, double height)
+        {
+            RX = width / 2;
+            RY = height / 2;
+            CX = width / 2;
+            CY = height / 2;
         }
     }
 }

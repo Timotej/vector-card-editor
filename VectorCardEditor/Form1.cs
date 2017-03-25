@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing.Text;
+
 namespace VectorCardEditor
 {
     public partial class Form1 : Form
@@ -14,7 +16,7 @@ namespace VectorCardEditor
         ShapeType CurrentSelectedShape;
         Color CurrentColor = Color.White;
 
-        Font CurrentFont = new Font(new FontFamily("Arial"), 12);
+        Font CurrentFont = new Font(new FontFamily("Arial"), 8);
         Color FontColor = Color.Black;
 
         CardsManager Manager = new CardsManager();
@@ -26,14 +28,14 @@ namespace VectorCardEditor
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             colorDialog1.AllowFullOpen = true;
 
-            toolTip1.SetToolTip(this.StrokeButton, "Set stroke for cards");
-            toolTip1.SetToolTip(this.TextButton, "Add and edit text in cards");
             toolTip1.SetToolTip(this.ShapeButton, "Choose shape");
             toolTip1.SetToolTip(this.ColorButton, "Choose color");
 
+            //InstalledFontCollection installedFontCollection = new InstalledFontCollection();
             foreach (FontFamily oneFontFamily in FontFamily.Families)
             {
                 comboBox1.Items.Add(oneFontFamily.Name);
+                
             }
             comboBox1.Text = "Arial";
 
@@ -110,7 +112,7 @@ namespace VectorCardEditor
         Point ClickStartPoint;
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
-            HandleMouseSelection(e);
+            //HandleMouseSelection(e);
             Refresh();
         }
 
@@ -209,42 +211,6 @@ namespace VectorCardEditor
 
         private void GenerateCardButton_Click(object sender, EventArgs e)
         {
-            /*double width = 100;
-            double height = 100;
-            var widthOK = true;
-            var heightOk = true;
-            Console.WriteLine(textBox1.Text);
-            if (widthOK && heightOk)
-            {
-                var card = new Card(width, height);
-                if (Manager.CardsList.Count > 0)
-                {
-                    var last = Manager.CardsList[Manager.CardsList.Count - 1];
-                    card.OriginPoint = new Point((int)(last.OriginPoint.X + last.Width + 10), last.OriginPoint.Y);
-                }
-                else
-                {
-                    card.OriginPoint = new Point(100, 100);
-                }
-                if (CurrentSelectedShape == ShapeType.Ellipse)
-                {
-                    card.Shape = new EllipseShape(card.Width, card.Height);
-                }
-                else if (CurrentSelectedShape == ShapeType.Rectangle)
-                {
-                    card.Shape = new RectangleShape(card.Width, card.Height);
-                }
-                card.Shape.FillColor = CurrentColor;
-                card.ShowGrid = true;
-                card.AddLabel(this);
-                Manager.CardsList.Add(card);
-            }
-            else
-            {
-                MessageBox.Show("Wrong input");
-            }
-            
-            Refresh();*/
             Manager.DeleteAllCards();
 
             var text = textBox1.Text;
@@ -263,25 +229,30 @@ namespace VectorCardEditor
             width += 20f;
             height += 20f;
 
+            var position = 0;
             for (int i = 0; i<split.Length; i++)
             {
-                var card = new Card(width, height);
-                card.OriginPoint = new Point(300, 100 + (((int)height + 5) * i));
-                if (CurrentSelectedShape == ShapeType.Ellipse)
+                if (!string.IsNullOrWhiteSpace(split[i])) 
                 {
-                    card.Shape = new EllipseShape(card.Width, card.Height);
+                    var card = new Card(width, height);
+                    card.OriginPoint = new Point(300, 100 + (((int)height + 5) * position));
+                    position++;
+                    if (CurrentSelectedShape == ShapeType.Ellipse)
+                    {
+                        card.Shape = new EllipseShape(card.Width, card.Height);
+                    }
+                    else if (CurrentSelectedShape == ShapeType.Rectangle)
+                    {
+                        card.Shape = new RectangleShape(card.Width, card.Height);
+                    }
+                    card.Shape.FillColor = CurrentColor;
+                    card.ShowGrid = true;
+                    card.Text = split[i];
+                    card.FontType = CurrentFont;
+                    card.FontColor = FontColor;
+                    card.FontSize = g.MeasureString(split[i], CurrentFont);
+                    Manager.CardsList.Add(card);
                 }
-                else if (CurrentSelectedShape == ShapeType.Rectangle)
-                {
-                    card.Shape = new RectangleShape(card.Width, card.Height);
-                }
-                card.Shape.FillColor = CurrentColor;
-                card.ShowGrid = true;
-                card.Text = split[i];
-                card.FontType = CurrentFont;
-                card.FontColor = FontColor;
-                card.FontSize = g.MeasureString(split[i], CurrentFont);
-                Manager.CardsList.Add(card);
             }
 
 
@@ -301,7 +272,23 @@ namespace VectorCardEditor
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            ProcessObjectMove(e);    
+            if (Manager.IsInBottomRightCorner(e.Location))
+            {
+                Cursor.Current = Cursors.SizeNWSE;
+            }
+            else
+            {
+                Cursor.Current = Cursors.Default;
+            }
+
+            if (ResizingStarted)
+            {
+                ResizeEvent(e);
+            }
+            else
+            {
+                ProcessObjectMove(e);
+            }
         }
 
         private void ProcessObjectMove(MouseEventArgs e)
@@ -327,16 +314,28 @@ namespace VectorCardEditor
             Refresh();
         }
 
+
+        bool ResizingStarted = false;
+        Size InitialSize;
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 ClickStartPoint = e.Location;
-            }
-        }
+                
 
-        private void TextButton_Click(object sender, EventArgs e)
-        {
+                if (Manager.IsInBottomRightCorner(e.Location))
+                {
+                    ResizingStarted = true;
+                    InitialSize = new Size((int)Manager.CardsList[0].Width, (int)Manager.CardsList[0].Height);
+                }
+                else
+                {
+                    HandleMouseSelection(e);
+                    ResizingStarted = false;
+                }
+            }
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -348,7 +347,6 @@ namespace VectorCardEditor
             if (!success) size = 12;
 
             CurrentFont = new Font(new FontFamily(text), size);
-            textBox1.Font = CurrentFont;
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -360,7 +358,6 @@ namespace VectorCardEditor
             if (!success) size = 12;
 
             CurrentFont = new Font(new FontFamily(text), size);
-            textBox1.Font = CurrentFont;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -372,6 +369,39 @@ namespace VectorCardEditor
 
                 FontColor = dialog.Color;
             }
+        }
+
+        private void exportAsPNGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Manager.SaveAsPNG();
+        }
+
+        private void ResizeEvent(MouseEventArgs e)
+        {
+            if (ResizingStarted && e.Button == MouseButtons.Left)
+            {
+                var x = e.X - ClickStartPoint.X;
+                var y = e.Y - ClickStartPoint.Y;
+                Manager.ResizeAll(InitialSize.Width + x, InitialSize.Height + y);
+                Refresh();
+            }
+        }
+
+        private void Form1_MouseLeave(object sender, EventArgs e)
+        {
+            ResizingStarted = false;
+        }
+
+        private void ColumnAlignButton_Click(object sender, EventArgs e)
+        {
+            Manager.ColumnAlign();
+            Refresh();
+        }
+
+        private void RowAlignButton_Click(object sender, EventArgs e)
+        {
+            Manager.RowAlign();
+            Refresh();
         }
     }
 }
