@@ -39,8 +39,8 @@ namespace VectorCardEditor
         {
             var node = doc.CreateElement("ellipse");
             node.SetAttribute("style", GenerateStyle());
-            node.SetAttribute("cx", CX.ToString());
-            node.SetAttribute("cy", CY.ToString());
+            node.SetAttribute("cx", (CX + StrokeWidth / 2).ToString());
+            node.SetAttribute("cy", (CY + StrokeWidth / 2).ToString());
             node.SetAttribute("rx", RX.ToString());
             node.SetAttribute("ry", RY.ToString());
 
@@ -49,11 +49,13 @@ namespace VectorCardEditor
 
         public override void Draw(Graphics g, Point origin)
         {
+            //var diff = (int)(StrokeWidth / 2);
+            //var rect = new Rectangle(origin.X - diff, origin.Y - diff, (int)RX * 2 + (2 * diff), (int)RY * 2 + (2 * diff));
             var rect = new Rectangle(origin.X, origin.Y, (int)RX * 2, (int)RY * 2);
             var brush = new SolidBrush(FillColor);
             g.FillEllipse(brush, rect);
 
-            if (StrokeColor != null)
+            if (StrokeColor != null && StrokeWidth > 0)
             {
                 var pen = new Pen(StrokeColor, (float)StrokeWidth);
                 g.DrawEllipse(pen, rect);

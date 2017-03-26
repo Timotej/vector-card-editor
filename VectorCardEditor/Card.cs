@@ -16,10 +16,27 @@ namespace VectorCardEditor
         public string Name { get; set; }
         public ShapeBase Shape { get; set; }
 
+        public int RealWidth
+        {
+            get
+            {
+                return (int)(Width + Shape.StrokeWidth);
+            }
+        }
+
+        public int RealHeight
+        {
+            get
+            {
+                return (int)(Height + Shape.StrokeWidth);
+            }
+        }
+
         public string Text { get; set; }
         public Font FontType { get; set; }
         public Color FontColor { get; set;  }
         public SizeF FontSize { get; set; }
+
         public Card(double width, double height)
         {
             Width = width;
@@ -34,14 +51,15 @@ namespace VectorCardEditor
             
             if (ShowGrid)
             {
-                var rect = new Rectangle(OriginPoint, new Size((int)Width, (int)Height));
+                var diff = (int)(Shape.StrokeWidth / 2);
+                var rect = new Rectangle(OriginPoint.X - diff, OriginPoint.Y - diff, (int)Width + (2 * diff), (int)Height + (2 * diff));
                 if (Selected)
                 {
                     g.DrawRectangle(Pens.Red, rect);
                 }
                 else
                 {
-                    g.DrawRectangle(Pens.Black, rect);
+                    //g.DrawRectangle(Pens.Black, rect);
                 }
             }
         }
@@ -68,8 +86,8 @@ namespace VectorCardEditor
             doc.AppendChild(declaration);
 
             var svgNode = doc.CreateElement("svg");
-            svgNode.SetAttribute("width", Width.ToString());
-            svgNode.SetAttribute("height", Height.ToString());
+            svgNode.SetAttribute("width", RealWidth.ToString());
+            svgNode.SetAttribute("height", RealHeight.ToString());
             doc.AppendChild(svgNode);
 
             var gNode = doc.CreateElement("g");
@@ -82,18 +100,14 @@ namespace VectorCardEditor
 
         public void SaveAsPng(string file)
         {
-            Bitmap b = new Bitmap((int)Width, (int)Height);
+            Bitmap b = new Bitmap((RealWidth), RealHeight);
             Graphics g = Graphics.FromImage(b);
 
-            Shape.Draw(g, new Point(0, 0));
-            DrawText(g, new Point(0, 0));
+            int pos = (int)(Shape.StrokeWidth / 2);
+            Shape.Draw(g, new Point(pos, pos));
+            DrawText(g, new Point(pos, pos));
 
             b.Save(file, ImageFormat.Png);
-        }
-
-        public void ChangeShape(ShapeBase shape)
-        {
-            Shape = shape;
         }
 
         public void MoveByVector(Point vector)
@@ -113,8 +127,8 @@ namespace VectorCardEditor
         {
             var node = doc.CreateElement("text");
             node.SetAttribute("style", GenerateTextStyle());
-            node.SetAttribute("x", ((Width / 2) - (FontSize.Width / 3)).ToString());
-            node.SetAttribute("y", ((Height / 2) + (FontSize.Height / 4)).ToString());
+            node.SetAttribute("x", ((RealWidth / 2) - (FontSize.Width / 3)).ToString());
+            node.SetAttribute("y", ((RealHeight / 2) + (FontSize.Height / 4)).ToString());
             node.InnerText = Text;
             doc.DocumentElement.SelectSingleNode("/svg/g").AppendChild(node);
         }
@@ -135,7 +149,8 @@ namespace VectorCardEditor
 
         public bool IsInBottomRightCorner(Point p)
         {
-            var bl = new Point(OriginPoint.X + (int)Width, OriginPoint.Y + (int)Height);
+            var diff = (int)(Shape.StrokeWidth / 2);
+            var bl = new Point(OriginPoint.X + (int)Width + diff, OriginPoint.Y + (int)Height + diff);
 
             var x = p.X - bl.X;
             var y = p.Y - bl.Y;

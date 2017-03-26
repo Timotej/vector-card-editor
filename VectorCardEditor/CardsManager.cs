@@ -179,7 +179,7 @@ namespace VectorCardEditor
         {
             for (int i = 0; i < CardsList.Count; i++)
             {
-                CardsList[i].OriginPoint = new Point(300, 100 + (((int)CardsList[i].Height + 5) * i));
+                CardsList[i].OriginPoint = new Point(300, 100 + ((CardsList[i].RealHeight + 5) * i));
             }
         }
 
@@ -187,7 +187,7 @@ namespace VectorCardEditor
         {
             for (int i = 0; i < CardsList.Count; i++)
             {
-                CardsList[i].OriginPoint = new Point(300 + (((int)CardsList[i].Width + 5) * i), 100);
+                CardsList[i].OriginPoint = new Point(300 + ((CardsList[i].RealWidth + 5) * i), 100);
             }
         }
     }

@@ -30,13 +30,19 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.ColorButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.upraviťToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nastaveniaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.StrokeColorButton = new System.Windows.Forms.Button();
+            this.RowAlignButton = new System.Windows.Forms.Button();
+            this.ColumnAlignButton = new System.Windows.Forms.Button();
             this.FontColorButton = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -45,6 +51,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.ShapeButton = new System.Windows.Forms.Button();
+            this.ColorButton = new System.Windows.Forms.Button();
             this.ShapePanel = new System.Windows.Forms.Panel();
             this.EllipseButton = new System.Windows.Forms.Button();
             this.RectangleButton = new System.Windows.Forms.Button();
@@ -54,32 +61,20 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.exportAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ColumnAlignButton = new System.Windows.Forms.Button();
-            this.RowAlignButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.ShapePanel.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // ColorButton
-            // 
-            this.ColorButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ColorButton.Image = ((System.Drawing.Image)(resources.GetObject("ColorButton.Image")));
-            this.ColorButton.Location = new System.Drawing.Point(428, 4);
-            this.ColorButton.Name = "ColorButton";
-            this.ColorButton.Size = new System.Drawing.Size(32, 32);
-            this.ColorButton.TabIndex = 2;
-            this.ColorButton.UseVisualStyleBackColor = true;
-            this.ColorButton.Click += new System.EventHandler(this.ColorButton_Click);
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.upraviťToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(897, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(784, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -91,29 +86,51 @@
             this.exportToolStripMenuItem,
             this.exportAsPNGToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.fileToolStripMenuItem.Text = "Súbor";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.saveToolStripMenuItem.Text = "Uložiť";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.openToolStripMenuItem.Text = "Otvoriť";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exportToolStripMenuItem.Text = "Export as SVG";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.exportToolStripMenuItem.Text = "Export ako SVG";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+            // 
+            // exportAsPNGToolStripMenuItem
+            // 
+            this.exportAsPNGToolStripMenuItem.Name = "exportAsPNGToolStripMenuItem";
+            this.exportAsPNGToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.exportAsPNGToolStripMenuItem.Text = "Export ako PNG";
+            this.exportAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportAsPNGToolStripMenuItem_Click);
+            // 
+            // upraviťToolStripMenuItem
+            // 
+            this.upraviťToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nastaveniaToolStripMenuItem});
+            this.upraviťToolStripMenuItem.Name = "upraviťToolStripMenuItem";
+            this.upraviťToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.upraviťToolStripMenuItem.Text = "Upraviť";
+            // 
+            // nastaveniaToolStripMenuItem
+            // 
+            this.nastaveniaToolStripMenuItem.Name = "nastaveniaToolStripMenuItem";
+            this.nastaveniaToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.nastaveniaToolStripMenuItem.Text = "Nastavenia";
+            this.nastaveniaToolStripMenuItem.Click += new System.EventHandler(this.nastaveniaToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -121,6 +138,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoSize = true;
             this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.panel1.Controls.Add(this.numericUpDown1);
+            this.panel1.Controls.Add(this.StrokeColorButton);
             this.panel1.Controls.Add(this.RowAlignButton);
             this.panel1.Controls.Add(this.ColumnAlignButton);
             this.panel1.Controls.Add(this.FontColorButton);
@@ -134,13 +153,54 @@
             this.panel1.Controls.Add(this.ColorButton);
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(897, 39);
+            this.panel1.Size = new System.Drawing.Size(784, 39);
             this.panel1.TabIndex = 6;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDown1.Location = new System.Drawing.Point(517, 11);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(42, 22);
+            this.numericUpDown1.TabIndex = 18;
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // StrokeColorButton
+            // 
+            this.StrokeColorButton.BackColor = System.Drawing.Color.White;
+            this.StrokeColorButton.Location = new System.Drawing.Point(479, 3);
+            this.StrokeColorButton.Name = "StrokeColorButton";
+            this.StrokeColorButton.Size = new System.Drawing.Size(32, 32);
+            this.StrokeColorButton.TabIndex = 17;
+            this.StrokeColorButton.UseVisualStyleBackColor = false;
+            this.StrokeColorButton.Click += new System.EventHandler(this.StrokeColorButton_Click);
+            // 
+            // RowAlignButton
+            // 
+            this.RowAlignButton.BackColor = System.Drawing.SystemColors.Control;
+            this.RowAlignButton.Location = new System.Drawing.Point(646, 3);
+            this.RowAlignButton.Name = "RowAlignButton";
+            this.RowAlignButton.Size = new System.Drawing.Size(58, 32);
+            this.RowAlignButton.TabIndex = 15;
+            this.RowAlignButton.Text = "Riadok";
+            this.RowAlignButton.UseVisualStyleBackColor = false;
+            this.RowAlignButton.Click += new System.EventHandler(this.RowAlignButton_Click);
+            // 
+            // ColumnAlignButton
+            // 
+            this.ColumnAlignButton.BackColor = System.Drawing.SystemColors.Control;
+            this.ColumnAlignButton.Location = new System.Drawing.Point(582, 3);
+            this.ColumnAlignButton.Name = "ColumnAlignButton";
+            this.ColumnAlignButton.Size = new System.Drawing.Size(58, 32);
+            this.ColumnAlignButton.TabIndex = 14;
+            this.ColumnAlignButton.Text = "Stĺpec";
+            this.ColumnAlignButton.UseVisualStyleBackColor = false;
+            this.ColumnAlignButton.Click += new System.EventHandler(this.ColumnAlignButton_Click);
             // 
             // FontColorButton
             // 
             this.FontColorButton.BackColor = System.Drawing.Color.Black;
-            this.FontColorButton.Location = new System.Drawing.Point(237, 4);
+            this.FontColorButton.Location = new System.Drawing.Point(237, 3);
             this.FontColorButton.Name = "FontColorButton";
             this.FontColorButton.Size = new System.Drawing.Size(32, 32);
             this.FontColorButton.TabIndex = 13;
@@ -179,7 +239,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(316, 14);
+            this.label3.Location = new System.Drawing.Point(289, 14);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 13);
             this.label3.TabIndex = 10;
@@ -188,7 +248,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(466, 14);
+            this.label2.Location = new System.Drawing.Point(439, 14);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 13);
             this.label2.TabIndex = 9;
@@ -197,7 +257,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(389, 14);
+            this.label1.Location = new System.Drawing.Point(362, 14);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 4;
@@ -207,19 +267,31 @@
             // 
             this.ShapeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ShapeButton.Image = ((System.Drawing.Image)(resources.GetObject("ShapeButton.Image")));
-            this.ShapeButton.Location = new System.Drawing.Point(351, 4);
+            this.ShapeButton.Location = new System.Drawing.Point(324, 3);
             this.ShapeButton.Name = "ShapeButton";
             this.ShapeButton.Size = new System.Drawing.Size(32, 32);
             this.ShapeButton.TabIndex = 0;
             this.ShapeButton.UseVisualStyleBackColor = true;
             this.ShapeButton.Click += new System.EventHandler(this.ShapeButton_Click);
             // 
+            // ColorButton
+            // 
+            this.ColorButton.BackColor = System.Drawing.Color.White;
+            this.ColorButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ColorButton.Image = ((System.Drawing.Image)(resources.GetObject("ColorButton.Image")));
+            this.ColorButton.Location = new System.Drawing.Point(401, 3);
+            this.ColorButton.Name = "ColorButton";
+            this.ColorButton.Size = new System.Drawing.Size(32, 32);
+            this.ColorButton.TabIndex = 2;
+            this.ColorButton.UseVisualStyleBackColor = false;
+            this.ColorButton.Click += new System.EventHandler(this.ColorButton_Click);
+            // 
             // ShapePanel
             // 
             this.ShapePanel.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ShapePanel.Controls.Add(this.EllipseButton);
             this.ShapePanel.Controls.Add(this.RectangleButton);
-            this.ShapePanel.Location = new System.Drawing.Point(351, 66);
+            this.ShapePanel.Location = new System.Drawing.Point(324, 66);
             this.ShapePanel.Name = "ShapePanel";
             this.ShapePanel.Size = new System.Drawing.Size(39, 80);
             this.ShapePanel.TabIndex = 7;
@@ -290,39 +362,12 @@
             this.label4.TabIndex = 10;
             this.label4.Text = "Text";
             // 
-            // exportAsPNGToolStripMenuItem
-            // 
-            this.exportAsPNGToolStripMenuItem.Name = "exportAsPNGToolStripMenuItem";
-            this.exportAsPNGToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exportAsPNGToolStripMenuItem.Text = "Export as PNG";
-            this.exportAsPNGToolStripMenuItem.Click += new System.EventHandler(this.exportAsPNGToolStripMenuItem_Click);
-            // 
-            // ColumnAlignButton
-            // 
-            this.ColumnAlignButton.BackColor = System.Drawing.Color.Yellow;
-            this.ColumnAlignButton.Location = new System.Drawing.Point(681, 9);
-            this.ColumnAlignButton.Name = "ColumnAlignButton";
-            this.ColumnAlignButton.Size = new System.Drawing.Size(75, 23);
-            this.ColumnAlignButton.TabIndex = 14;
-            this.ColumnAlignButton.UseVisualStyleBackColor = false;
-            this.ColumnAlignButton.Click += new System.EventHandler(this.ColumnAlignButton_Click);
-            // 
-            // RowAlignButton
-            // 
-            this.RowAlignButton.BackColor = System.Drawing.Color.Lime;
-            this.RowAlignButton.Location = new System.Drawing.Point(782, 9);
-            this.RowAlignButton.Name = "RowAlignButton";
-            this.RowAlignButton.Size = new System.Drawing.Size(75, 23);
-            this.RowAlignButton.TabIndex = 15;
-            this.RowAlignButton.UseVisualStyleBackColor = false;
-            this.RowAlignButton.Click += new System.EventHandler(this.RowAlignButton_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(897, 561);
+            this.ClientSize = new System.Drawing.Size(784, 600);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.GenerateCardButton);
@@ -342,6 +387,7 @@
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ShapePanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -377,6 +423,10 @@
         private System.Windows.Forms.ToolStripMenuItem exportAsPNGToolStripMenuItem;
         private System.Windows.Forms.Button RowAlignButton;
         private System.Windows.Forms.Button ColumnAlignButton;
+        private System.Windows.Forms.Button StrokeColorButton;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.ToolStripMenuItem upraviťToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nastaveniaToolStripMenuItem;
     }
 }
 

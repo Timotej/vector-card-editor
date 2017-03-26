@@ -14,7 +14,7 @@ namespace VectorCardEditor
     {
         public Color FillColor { get; set; }
         public Color StrokeColor { get; set; } = Color.White;
-        public double StrokeWidth { get; set; }
+        public double StrokeWidth { get; set; } = 0;
 
         public ShapeBase() { }
 

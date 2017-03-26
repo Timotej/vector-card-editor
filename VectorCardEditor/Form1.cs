@@ -15,6 +15,7 @@ namespace VectorCardEditor
     {
         ShapeType CurrentSelectedShape;
         Color CurrentColor = Color.White;
+        Color CurrentStrokeColor = Color.White;
 
         Font CurrentFont = new Font(new FontFamily("Arial"), 8);
         Color FontColor = Color.Black;
@@ -31,7 +32,6 @@ namespace VectorCardEditor
             toolTip1.SetToolTip(this.ShapeButton, "Choose shape");
             toolTip1.SetToolTip(this.ColorButton, "Choose color");
 
-            //InstalledFontCollection installedFontCollection = new InstalledFontCollection();
             foreach (FontFamily oneFontFamily in FontFamily.Families)
             {
                 comboBox1.Items.Add(oneFontFamily.Name);
@@ -69,6 +69,8 @@ namespace VectorCardEditor
             {
                 item.Shape = new EllipseShape(item.Width, item.Height);
                 item.Shape.FillColor = CurrentColor;
+                item.Shape.StrokeColor = CurrentStrokeColor;
+                item.Shape.StrokeWidth = (int)numericUpDown1.Value;
             }
             ShapeButton.Image = EllipseButton.Image;
             Refresh();
@@ -82,6 +84,8 @@ namespace VectorCardEditor
             {
                 item.Shape = new RectangleShape(item.Width, item.Height);
                 item.Shape.FillColor = CurrentColor;
+                item.Shape.StrokeColor = CurrentStrokeColor;
+                item.Shape.StrokeWidth = (int)numericUpDown1.Value;
             }
             ShapeButton.Image = RectangleButton.Image;
             
@@ -105,7 +109,6 @@ namespace VectorCardEditor
                 item.Shape.FillColor = CurrentColor;
             }
             Refresh();
-            
         }
 
         #endregion
@@ -246,6 +249,8 @@ namespace VectorCardEditor
                         card.Shape = new RectangleShape(card.Width, card.Height);
                     }
                     card.Shape.FillColor = CurrentColor;
+                    card.Shape.StrokeColor = CurrentStrokeColor;
+                    card.Shape.StrokeWidth = (int)numericUpDown1.Value;
                     card.ShowGrid = true;
                     card.Text = split[i];
                     card.FontType = CurrentFont;
@@ -254,7 +259,6 @@ namespace VectorCardEditor
                     Manager.CardsList.Add(card);
                 }
             }
-
 
             Refresh();
         }
@@ -402,6 +406,37 @@ namespace VectorCardEditor
         {
             Manager.RowAlign();
             Refresh();
+        }
+        
+        private void StrokeColorButton_Click(object sender, EventArgs e)
+        {
+            var dialog = new ColorDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                StrokeColorButton.BackColor = dialog.Color;
+
+                CurrentStrokeColor = dialog.Color;
+            }
+            foreach (var item in Manager.SelectedCardsList)
+            {
+                item.Shape.StrokeColor = CurrentStrokeColor;
+            }
+            Refresh();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            foreach (var item in Manager.SelectedCardsList)
+            {
+                item.Shape.StrokeWidth = (int)numericUpDown1.Value;
+            }
+            Refresh();
+        }
+
+        private void nastaveniaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new Form2(this);
+            form.ShowDialog();
         }
     }
 }

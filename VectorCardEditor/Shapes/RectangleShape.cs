@@ -37,8 +37,8 @@ namespace VectorCardEditor
         {
             var node = doc.CreateElement("rect");
             node.SetAttribute("style", GenerateStyle());
-            node.SetAttribute("x", X.ToString());
-            node.SetAttribute("y", Y.ToString());
+            node.SetAttribute("x", (X + StrokeWidth / 2).ToString());
+            node.SetAttribute("y", (Y + StrokeWidth / 2).ToString());
             node.SetAttribute("width", Width.ToString());
             node.SetAttribute("height", Height.ToString());
 
@@ -47,11 +47,14 @@ namespace VectorCardEditor
 
         public override void Draw(Graphics g, Point origin)
         {
+           
+            //var diff = (int)(StrokeWidth / 2);
+            //var rect = new Rectangle(origin.X - diff, origin.Y - diff, (int)Width + (2 * diff), (int)Height + (2 * diff));
             var rect = new Rectangle(origin.X, origin.Y, (int)Width, (int)Height);
             var brush = new SolidBrush(FillColor);
             g.FillRectangle(brush, rect);
 
-            if (StrokeColor != null)
+            if (StrokeColor != null && StrokeWidth > 0)
             {
                 var pen = new Pen(StrokeColor, (float)StrokeWidth);
                 g.DrawRectangle(pen, rect);
