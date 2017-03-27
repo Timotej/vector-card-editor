@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml;
 
 namespace VectorCardEditor
 {
@@ -119,6 +120,37 @@ namespace VectorCardEditor
                     {
                         fs.Close();
                     }
+                }
+            }
+        }
+
+        public void SaveAsSingleSVG()
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "svg files (*.svg)|*.svg";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if (saveFileDialog1.FileName != "")
+                {
+                    var doc = new XmlDocument();
+                    var declaration = doc.CreateXmlDeclaration("1.0", "UTF-8", "no");
+                    doc.AppendChild(declaration);
+
+                    var svgNode = doc.CreateElement("svg");
+                    svgNode.SetAttribute("width", "100");
+                    svgNode.SetAttribute("height", "100");
+                    doc.AppendChild(svgNode);
+
+                    foreach (var item in CardsList)
+                    {
+                        item.SaveIntoSingleSVG(doc);
+                    }
+
+                    doc.Save(saveFileDialog1.FileName);
                 }
             }
         }

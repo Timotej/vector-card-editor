@@ -45,11 +45,23 @@ namespace VectorCardEditor
             doc.DocumentElement.SelectSingleNode("/svg/g").AppendChild(node);
         }
 
+        public override XmlElement GetXmlFormat(XmlDocument doc, Point p)
+        {
+            var g = doc.CreateElement("g");
+            var node = doc.CreateElement("rect");
+            node.SetAttribute("style", GenerateStyle());
+            node.SetAttribute("x", (p.X + StrokeWidth / 2).ToString());
+            node.SetAttribute("y", (p.Y + StrokeWidth / 2).ToString());
+            node.SetAttribute("width", Width.ToString());
+            node.SetAttribute("height", Height.ToString());
+
+            g.AppendChild(node);
+            //doc.DocumentElement.SelectSingleNode("/svg").AppendChild(node);
+            return node;
+        }
+
         public override void Draw(Graphics g, Point origin)
         {
-           
-            //var diff = (int)(StrokeWidth / 2);
-            //var rect = new Rectangle(origin.X - diff, origin.Y - diff, (int)Width + (2 * diff), (int)Height + (2 * diff));
             var rect = new Rectangle(origin.X, origin.Y, (int)Width, (int)Height);
             var brush = new SolidBrush(FillColor);
             g.FillRectangle(brush, rect);

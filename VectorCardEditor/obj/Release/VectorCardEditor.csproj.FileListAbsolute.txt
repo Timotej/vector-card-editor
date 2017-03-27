@@ -1,0 +1,12 @@
+C:\Users\Timotej\Documents\Visual Studio 2015\Projects\VectorCardEditor\VectorCardEditor\bin\Release\VectorCardEditor.exe.manifest
+C:\Users\Timotej\Documents\Visual Studio 2015\Projects\VectorCardEditor\VectorCardEditor\bin\Release\VectorCardEditor.application
+C:\Users\Timotej\Documents\Visual Studio 2015\Projects\VectorCardEditor\VectorCardEditor\bin\Release\VectorCardEditor.exe
+C:\Users\Timotej\Documents\Visual Studio 2015\Projects\VectorCardEditor\VectorCardEditor\bin\Release\VectorCardEditor.pdb
+C:\Users\Timotej\Documents\Visual Studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Release\VectorCardEditor.Form1.resources
+C:\Users\Timotej\Documents\Visual Studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Release\VectorCardEditor.Form2.resources
+C:\Users\Timotej\Documents\Visual Studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Release\VectorCardEditor.Properties.Resources.resources
+C:\Users\Timotej\Documents\Visual Studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Release\VectorCardEditor.csproj.GenerateResource.Cache
+C:\Users\Timotej\Documents\Visual Studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Release\VectorCardEditor.exe.manifest
+C:\Users\Timotej\Documents\Visual Studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Release\VectorCardEditor.application
+C:\Users\Timotej\Documents\Visual Studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Release\VectorCardEditor.exe
+C:\Users\Timotej\Documents\Visual Studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Release\VectorCardEditor.pdb

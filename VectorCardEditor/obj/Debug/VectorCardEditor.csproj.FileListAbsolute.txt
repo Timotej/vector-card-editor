@@ -7,3 +7,7 @@ c:\users\timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCa
 c:\users\timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Debug\VectorCardEditor.pdb
 C:\Users\Timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Debug\VectorCardEditor.csprojResolveAssemblyReference.cache
 C:\Users\Timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Debug\VectorCardEditor.Form2.resources
+C:\Users\Timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCardEditor\bin\Debug\VectorCardEditor.exe.manifest
+C:\Users\Timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCardEditor\bin\Debug\VectorCardEditor.application
+C:\Users\Timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Debug\VectorCardEditor.exe.manifest
+C:\Users\Timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Debug\VectorCardEditor.application

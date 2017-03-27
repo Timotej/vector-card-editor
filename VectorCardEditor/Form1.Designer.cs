@@ -61,6 +61,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.uložiťAkoSVGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -82,6 +83,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
+            this.uložiťAkoSVGToolStripMenuItem,
             this.openToolStripMenuItem,
             this.exportToolStripMenuItem,
             this.exportAsPNGToolStripMenuItem});
@@ -362,6 +364,13 @@
             this.label4.TabIndex = 10;
             this.label4.Text = "Text";
             // 
+            // uložiťAkoSVGToolStripMenuItem
+            // 
+            this.uložiťAkoSVGToolStripMenuItem.Name = "uložiťAkoSVGToolStripMenuItem";
+            this.uložiťAkoSVGToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.uložiťAkoSVGToolStripMenuItem.Text = "Uložiť ako SVG";
+            this.uložiťAkoSVGToolStripMenuItem.Click += new System.EventHandler(this.uložiťAkoSVGToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -427,6 +436,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.ToolStripMenuItem upraviťToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nastaveniaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uložiťAkoSVGToolStripMenuItem;
     }
 }
 

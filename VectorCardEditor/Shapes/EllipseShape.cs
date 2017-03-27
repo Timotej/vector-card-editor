@@ -47,6 +47,19 @@ namespace VectorCardEditor
             doc.DocumentElement.SelectSingleNode("/svg/g").AppendChild(node);
         }
 
+        public override XmlElement GetXmlFormat(XmlDocument doc, Point p)
+        {
+            var node = doc.CreateElement("ellipse");
+            node.SetAttribute("style", GenerateStyle());
+            node.SetAttribute("cx", (p.X + CX + StrokeWidth / 2).ToString());
+            node.SetAttribute("cy", (p.Y + CY + StrokeWidth / 2).ToString());
+            node.SetAttribute("rx", RX.ToString());
+            node.SetAttribute("ry", RY.ToString());
+
+            //doc.DocumentElement.SelectSingleNode("/svg").AppendChild(g);
+            return node;
+        }
+
         public override void Draw(Graphics g, Point origin)
         {
             //var diff = (int)(StrokeWidth / 2);

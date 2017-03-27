@@ -59,7 +59,7 @@ namespace VectorCardEditor
                 }
                 else
                 {
-                    //g.DrawRectangle(Pens.Black, rect);
+                    g.DrawRectangle(Pens.Black, rect);
                 }
             }
         }
@@ -94,8 +94,16 @@ namespace VectorCardEditor
             doc.DocumentElement.SelectSingleNode("/svg").AppendChild(gNode);
 
             Shape.Save(doc);
-            SaveText(doc);
+            doc.DocumentElement.SelectSingleNode("/svg/g").AppendChild(SaveText(doc));
             doc.Save(file);
+        }
+
+        public void SaveIntoSingleSVG(XmlDocument doc)
+        {
+            var node = doc.CreateElement("g");
+            node.AppendChild(Shape.GetXmlFormat(doc, new Point(OriginPoint.X - 300, OriginPoint.Y - 100)));
+            node.AppendChild(SaveText(doc, OriginPoint.X - 300, OriginPoint.Y - 100));
+            doc.DocumentElement.SelectSingleNode("/svg").AppendChild(node);
         }
 
         public void SaveAsPng(string file)
@@ -123,14 +131,15 @@ namespace VectorCardEditor
         }
 
 
-        public void SaveText(XmlDocument doc)
+        public XmlElement SaveText(XmlDocument doc, double x = 0, double y = 0)
         {
             var node = doc.CreateElement("text");
             node.SetAttribute("style", GenerateTextStyle());
-            node.SetAttribute("x", ((RealWidth / 2) - (FontSize.Width / 3)).ToString());
-            node.SetAttribute("y", ((RealHeight / 2) + (FontSize.Height / 4)).ToString());
+            node.SetAttribute("x", (x + (RealWidth / 2) - (FontSize.Width / 3)).ToString());
+            node.SetAttribute("y", (y + (RealHeight / 2) + (FontSize.Height / 4)).ToString());
             node.InnerText = Text;
-            doc.DocumentElement.SelectSingleNode("/svg/g").AppendChild(node);
+            //doc.DocumentElement.SelectSingleNode("/svg/g").AppendChild(node);
+            return node;
         }
 
         string GenerateTextStyle()

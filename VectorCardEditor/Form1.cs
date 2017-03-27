@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.IO;
-using System.Drawing.Text;
 
 namespace VectorCardEditor
 {
@@ -238,8 +231,7 @@ namespace VectorCardEditor
                 if (!string.IsNullOrWhiteSpace(split[i])) 
                 {
                     var card = new Card(width, height);
-                    card.OriginPoint = new Point(300, 100 + (((int)height + 5) * position));
-                    position++;
+                    
                     if (CurrentSelectedShape == ShapeType.Ellipse)
                     {
                         card.Shape = new EllipseShape(card.Width, card.Height);
@@ -256,6 +248,10 @@ namespace VectorCardEditor
                     card.FontType = CurrentFont;
                     card.FontColor = FontColor;
                     card.FontSize = g.MeasureString(split[i], CurrentFont);
+
+                    card.OriginPoint = new Point(300, 100 + (((int)card.RealHeight + 5) * position));
+                    position++;
+
                     Manager.CardsList.Add(card);
                 }
             }
@@ -437,6 +433,11 @@ namespace VectorCardEditor
         {
             var form = new Form2(this);
             form.ShowDialog();
+        }
+
+        private void uložiťAkoSVGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Manager.SaveAsSingleSVG();
         }
     }
 }
