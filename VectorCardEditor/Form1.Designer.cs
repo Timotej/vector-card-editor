@@ -83,8 +83,8 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
-            this.uložiťAkoSVGToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.uložiťAkoSVGToolStripMenuItem,
             this.exportToolStripMenuItem,
             this.exportAsPNGToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
