@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorCardEditor", "VectorCardEditor\VectorCardEditor.csproj", "{CC810EAC-65A6-4672-BEC6-F1DC5926A4F6}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "VectorCardEditorSetup", "VectorCardEditorSetup\VectorCardEditorSetup.vdproj", "{0771619F-0C17-41D4-A45C-BB3D8A9767FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{CC810EAC-65A6-4672-BEC6-F1DC5926A4F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC810EAC-65A6-4672-BEC6-F1DC5926A4F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC810EAC-65A6-4672-BEC6-F1DC5926A4F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0771619F-0C17-41D4-A45C-BB3D8A9767FA}.Debug|Any CPU.ActiveCfg = Debug
+		{0771619F-0C17-41D4-A45C-BB3D8A9767FA}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
