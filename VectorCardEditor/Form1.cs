@@ -6,6 +6,8 @@ namespace VectorCardEditor
 {
     public partial class Form1 : Form
     {
+        public const int HEIGHT_DIFF = 61;
+
         ShapeType CurrentSelectedShape;
         Color CurrentColor = Color.White;
         Color CurrentStrokeColor = Color.White;
@@ -14,7 +16,9 @@ namespace VectorCardEditor
         Color FontColor = Color.Black;
 
         CardsManager Manager = new CardsManager();
- 
+
+        Image BackgroundImage;
+
         public Form1()
         {
             InitializeComponent();
@@ -28,7 +32,7 @@ namespace VectorCardEditor
             foreach (FontFamily oneFontFamily in FontFamily.Families)
             {
                 comboBox1.Items.Add(oneFontFamily.Name);
-                
+
             }
             comboBox1.Text = "Arial";
 
@@ -37,11 +41,27 @@ namespace VectorCardEditor
                 comboBox2.Items.Add(i);
             }
             comboBox2.Text = "8";
+
+            ClientSize = new Size(800, 600 + HEIGHT_DIFF);
+
+            SetStyle(
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.UserPaint |
+                ControlStyles.DoubleBuffer,
+                true);
+
+            DoubleBuffered = true;
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
+
+            if (BackgroundImage != null)
+            {
+                e.Graphics.DrawImage(BackgroundImage, new Point(0, HEIGHT_DIFF));
+            }
+
             var graphics = e.Graphics;
 
             Manager.DrawAllCards(graphics);
@@ -81,7 +101,7 @@ namespace VectorCardEditor
                 item.Shape.StrokeWidth = (int)numericUpDown1.Value;
             }
             ShapeButton.Image = RectangleButton.Image;
-            
+
             Refresh();
         }
 
@@ -226,34 +246,33 @@ namespace VectorCardEditor
             height += 20f;
 
             var position = 0;
-            for (int i = 0; i<split.Length; i++)
+            for (int i = 0; i < split.Length; i++)
             {
-                if (!string.IsNullOrWhiteSpace(split[i])) 
+
+                var card = new Card(width, height);
+
+                if (CurrentSelectedShape == ShapeType.Ellipse)
                 {
-                    var card = new Card(width, height);
-                    
-                    if (CurrentSelectedShape == ShapeType.Ellipse)
-                    {
-                        card.Shape = new EllipseShape(card.Width, card.Height);
-                    }
-                    else if (CurrentSelectedShape == ShapeType.Rectangle)
-                    {
-                        card.Shape = new RectangleShape(card.Width, card.Height);
-                    }
-                    card.Shape.FillColor = CurrentColor;
-                    card.Shape.StrokeColor = CurrentStrokeColor;
-                    card.Shape.StrokeWidth = (int)numericUpDown1.Value;
-                    card.ShowGrid = true;
-                    card.Text = split[i];
-                    card.FontType = CurrentFont;
-                    card.FontColor = FontColor;
-                    card.FontSize = g.MeasureString(split[i], CurrentFont);
-
-                    card.OriginPoint = new Point(300, 100 + (((int)card.RealHeight + 5) * position));
-                    position++;
-
-                    Manager.CardsList.Add(card);
+                    card.Shape = new EllipseShape(card.Width, card.Height);
                 }
+                else if (CurrentSelectedShape == ShapeType.Rectangle)
+                {
+                    card.Shape = new RectangleShape(card.Width, card.Height);
+                }
+                card.Shape.FillColor = CurrentColor;
+                card.Shape.StrokeColor = CurrentStrokeColor;
+                card.Shape.StrokeWidth = (int)numericUpDown1.Value;
+                card.ShowGrid = true;
+                card.Text = split[i];
+                card.FontType = CurrentFont;
+                card.FontColor = FontColor;
+                card.FontSize = g.MeasureString(split[i], CurrentFont);
+
+                card.OriginPoint = new Point(300, 100 + (((int)card.RealHeight + 5) * position));
+                position++;
+
+                Manager.CardsList.Add(card);
+
             }
 
             Refresh();
@@ -322,7 +341,7 @@ namespace VectorCardEditor
             if (e.Button == MouseButtons.Left)
             {
                 ClickStartPoint = e.Location;
-                
+
 
                 if (Manager.IsInBottomRightCorner(e.Location))
                 {
@@ -335,7 +354,11 @@ namespace VectorCardEditor
                     ResizingStarted = false;
                 }
             }
-            
+            else if (e.Button == MouseButtons.Right)
+            {
+                contextMenuStrip1.Show(this, new Point(e.X, e.Y));
+            }
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -403,7 +426,7 @@ namespace VectorCardEditor
             Manager.RowAlign();
             Refresh();
         }
-        
+
         private void StrokeColorButton_Click(object sender, EventArgs e)
         {
             var dialog = new ColorDialog();
@@ -439,5 +462,55 @@ namespace VectorCardEditor
         {
             Manager.SaveAsSingleSVG();
         }
+
+        private void zobrazSkryTextovePoleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var item = (sender as ToolStripMenuItem);
+            item.Checked = !item.Checked;
+            textBox1.Visible = !textBox1.Visible;
+            GenerateCardButton.Visible = !GenerateCardButton.Visible;
+            label4.Visible = !label4.Visible;
+        }
+
+        private void nastaviťPozadieToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetBackgroud();
+        }
+
+        private void nastaviťPozadieToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SetBackgroud();
+        }
+
+        void SetBackgroud()
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.gif, *.png) | *.jpg; *.jpeg; *.gif; *.png";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if (openFileDialog1.FileName != "")
+                {
+                    BackgroundImage = Image.FromFile(openFileDialog1.FileName);
+                    Refresh();
+                }
+            }
+        }
+
+        private void doSúboruToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Manager.SaveCoordinatesToFile();
+        }
+
+        private void doClipboarduToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var item = Manager.GenerateCardsCoordinates();
+            var text = item.Item1 + Environment.NewLine + item.Item2;
+            var form = new Form3(text);
+            form.ShowDialog();
+        } 
     }
 }

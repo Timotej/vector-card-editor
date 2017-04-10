@@ -34,10 +34,13 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uložiťAkoSVGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.upraviťToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nastaveniaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zobrazSkryTextovePoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nastaviťPozadieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.StrokeColorButton = new System.Windows.Forms.Button();
@@ -50,22 +53,28 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.ShapeButton = new System.Windows.Forms.Button();
-            this.ColorButton = new System.Windows.Forms.Button();
             this.ShapePanel = new System.Windows.Forms.Panel();
-            this.EllipseButton = new System.Windows.Forms.Button();
-            this.RectangleButton = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.GenerateCardButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.nastaviťPozadieToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.generujSúradniceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.doSúboruToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.doClipboarduToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.uložiťAkoSVGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.EllipseButton = new System.Windows.Forms.Button();
+            this.RectangleButton = new System.Windows.Forms.Button();
+            this.ShapeButton = new System.Windows.Forms.Button();
+            this.ColorButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.ShapePanel.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -105,6 +114,13 @@
             this.openToolStripMenuItem.Text = "Otvoriť";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
+            // uložiťAkoSVGToolStripMenuItem
+            // 
+            this.uložiťAkoSVGToolStripMenuItem.Name = "uložiťAkoSVGToolStripMenuItem";
+            this.uložiťAkoSVGToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.uložiťAkoSVGToolStripMenuItem.Text = "Uložiť ako SVG";
+            this.uložiťAkoSVGToolStripMenuItem.Click += new System.EventHandler(this.uložiťAkoSVGToolStripMenuItem_Click);
+            // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
@@ -122,7 +138,9 @@
             // upraviťToolStripMenuItem
             // 
             this.upraviťToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nastaveniaToolStripMenuItem});
+            this.nastaveniaToolStripMenuItem,
+            this.zobrazSkryTextovePoleToolStripMenuItem,
+            this.nastaviťPozadieToolStripMenuItem});
             this.upraviťToolStripMenuItem.Name = "upraviťToolStripMenuItem";
             this.upraviťToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.upraviťToolStripMenuItem.Text = "Upraviť";
@@ -130,9 +148,25 @@
             // nastaveniaToolStripMenuItem
             // 
             this.nastaveniaToolStripMenuItem.Name = "nastaveniaToolStripMenuItem";
-            this.nastaveniaToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.nastaveniaToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.nastaveniaToolStripMenuItem.Text = "Nastavenia";
             this.nastaveniaToolStripMenuItem.Click += new System.EventHandler(this.nastaveniaToolStripMenuItem_Click);
+            // 
+            // zobrazSkryTextovePoleToolStripMenuItem
+            // 
+            this.zobrazSkryTextovePoleToolStripMenuItem.Checked = true;
+            this.zobrazSkryTextovePoleToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.zobrazSkryTextovePoleToolStripMenuItem.Name = "zobrazSkryTextovePoleToolStripMenuItem";
+            this.zobrazSkryTextovePoleToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.zobrazSkryTextovePoleToolStripMenuItem.Text = "Zobraz/Skry Textové pole";
+            this.zobrazSkryTextovePoleToolStripMenuItem.Click += new System.EventHandler(this.zobrazSkryTextovePoleToolStripMenuItem_Click);
+            // 
+            // nastaviťPozadieToolStripMenuItem
+            // 
+            this.nastaviťPozadieToolStripMenuItem.Name = "nastaviťPozadieToolStripMenuItem";
+            this.nastaviťPozadieToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.nastaviťPozadieToolStripMenuItem.Text = "Nastaviť pozadie";
+            this.nastaviťPozadieToolStripMenuItem.Click += new System.EventHandler(this.nastaviťPozadieToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -265,29 +299,6 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Výplň";
             // 
-            // ShapeButton
-            // 
-            this.ShapeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ShapeButton.Image = ((System.Drawing.Image)(resources.GetObject("ShapeButton.Image")));
-            this.ShapeButton.Location = new System.Drawing.Point(324, 3);
-            this.ShapeButton.Name = "ShapeButton";
-            this.ShapeButton.Size = new System.Drawing.Size(32, 32);
-            this.ShapeButton.TabIndex = 0;
-            this.ShapeButton.UseVisualStyleBackColor = true;
-            this.ShapeButton.Click += new System.EventHandler(this.ShapeButton_Click);
-            // 
-            // ColorButton
-            // 
-            this.ColorButton.BackColor = System.Drawing.Color.White;
-            this.ColorButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ColorButton.Image = ((System.Drawing.Image)(resources.GetObject("ColorButton.Image")));
-            this.ColorButton.Location = new System.Drawing.Point(401, 3);
-            this.ColorButton.Name = "ColorButton";
-            this.ColorButton.Size = new System.Drawing.Size(32, 32);
-            this.ColorButton.TabIndex = 2;
-            this.ColorButton.UseVisualStyleBackColor = false;
-            this.ColorButton.Click += new System.EventHandler(this.ColorButton_Click);
-            // 
             // ShapePanel
             // 
             this.ShapePanel.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -298,6 +309,90 @@
             this.ShapePanel.Size = new System.Drawing.Size(39, 80);
             this.ShapePanel.TabIndex = 7;
             this.ShapePanel.Visible = false;
+            // 
+            // colorDialog1
+            // 
+            this.colorDialog1.AnyColor = true;
+            this.colorDialog1.FullOpen = true;
+            this.colorDialog1.ShowHelp = true;
+            // 
+            // GenerateCardButton
+            // 
+            this.GenerateCardButton.Location = new System.Drawing.Point(0, 329);
+            this.GenerateCardButton.Name = "GenerateCardButton";
+            this.GenerateCardButton.Size = new System.Drawing.Size(243, 23);
+            this.GenerateCardButton.TabIndex = 0;
+            this.GenerateCardButton.Text = "Generuj";
+            this.GenerateCardButton.UseVisualStyleBackColor = true;
+            this.GenerateCardButton.Click += new System.EventHandler(this.GenerateCardButton_Click);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nastaviťPozadieToolStripMenuItem1,
+            this.generujSúradniceToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(170, 48);
+            // 
+            // nastaviťPozadieToolStripMenuItem1
+            // 
+            this.nastaviťPozadieToolStripMenuItem1.Name = "nastaviťPozadieToolStripMenuItem1";
+            this.nastaviťPozadieToolStripMenuItem1.Size = new System.Drawing.Size(169, 22);
+            this.nastaviťPozadieToolStripMenuItem1.Text = "Nastaviť pozadie";
+            this.nastaviťPozadieToolStripMenuItem1.Click += new System.EventHandler(this.nastaviťPozadieToolStripMenuItem1_Click);
+            // 
+            // generujSúradniceToolStripMenuItem
+            // 
+            this.generujSúradniceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.doSúboruToolStripMenuItem,
+            this.doClipboarduToolStripMenuItem});
+            this.generujSúradniceToolStripMenuItem.Name = "generujSúradniceToolStripMenuItem";
+            this.generujSúradniceToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.generujSúradniceToolStripMenuItem.Text = "Generuj súradnice";
+            // 
+            // doSúboruToolStripMenuItem
+            // 
+            this.doSúboruToolStripMenuItem.Name = "doSúboruToolStripMenuItem";
+            this.doSúboruToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.doSúboruToolStripMenuItem.Text = "Do súboru";
+            this.doSúboruToolStripMenuItem.Click += new System.EventHandler(this.doSúboruToolStripMenuItem_Click);
+            // 
+            // doClipboarduToolStripMenuItem
+            // 
+            this.doClipboarduToolStripMenuItem.Name = "doClipboarduToolStripMenuItem";
+            this.doClipboarduToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.doClipboarduToolStripMenuItem.Text = "Do clipboardu";
+            this.doClipboarduToolStripMenuItem.Click += new System.EventHandler(this.doClipboarduToolStripMenuItem_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox1.Location = new System.Drawing.Point(0, 86);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(243, 237);
+            this.textBox1.TabIndex = 9;
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label4.Location = new System.Drawing.Point(0, 68);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(243, 15);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Text";
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
+            // 
+            // contextMenuStrip3
+            // 
+            this.contextMenuStrip3.Name = "contextMenuStrip3";
+            this.contextMenuStrip3.Size = new System.Drawing.Size(61, 4);
             // 
             // EllipseButton
             // 
@@ -323,60 +418,35 @@
             this.RectangleButton.UseVisualStyleBackColor = false;
             this.RectangleButton.Click += new System.EventHandler(this.RectangleButton_Click);
             // 
-            // colorDialog1
+            // ShapeButton
             // 
-            this.colorDialog1.AnyColor = true;
-            this.colorDialog1.FullOpen = true;
-            this.colorDialog1.ShowHelp = true;
+            this.ShapeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ShapeButton.Image = ((System.Drawing.Image)(resources.GetObject("ShapeButton.Image")));
+            this.ShapeButton.Location = new System.Drawing.Point(324, 3);
+            this.ShapeButton.Name = "ShapeButton";
+            this.ShapeButton.Size = new System.Drawing.Size(32, 32);
+            this.ShapeButton.TabIndex = 0;
+            this.ShapeButton.UseVisualStyleBackColor = true;
+            this.ShapeButton.Click += new System.EventHandler(this.ShapeButton_Click);
             // 
-            // GenerateCardButton
+            // ColorButton
             // 
-            this.GenerateCardButton.Location = new System.Drawing.Point(0, 329);
-            this.GenerateCardButton.Name = "GenerateCardButton";
-            this.GenerateCardButton.Size = new System.Drawing.Size(243, 23);
-            this.GenerateCardButton.TabIndex = 0;
-            this.GenerateCardButton.Text = "Generuj";
-            this.GenerateCardButton.UseVisualStyleBackColor = true;
-            this.GenerateCardButton.Click += new System.EventHandler(this.GenerateCardButton_Click);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Location = new System.Drawing.Point(0, 86);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(243, 237);
-            this.textBox1.TabIndex = 9;
-            // 
-            // label4
-            // 
-            this.label4.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label4.Location = new System.Drawing.Point(0, 68);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(243, 15);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Text";
-            // 
-            // uložiťAkoSVGToolStripMenuItem
-            // 
-            this.uložiťAkoSVGToolStripMenuItem.Name = "uložiťAkoSVGToolStripMenuItem";
-            this.uložiťAkoSVGToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.uložiťAkoSVGToolStripMenuItem.Text = "Uložiť ako SVG";
-            this.uložiťAkoSVGToolStripMenuItem.Click += new System.EventHandler(this.uložiťAkoSVGToolStripMenuItem_Click);
+            this.ColorButton.BackColor = System.Drawing.Color.White;
+            this.ColorButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ColorButton.Image = ((System.Drawing.Image)(resources.GetObject("ColorButton.Image")));
+            this.ColorButton.Location = new System.Drawing.Point(401, 3);
+            this.ColorButton.Name = "ColorButton";
+            this.ColorButton.Size = new System.Drawing.Size(32, 32);
+            this.ColorButton.TabIndex = 2;
+            this.ColorButton.UseVisualStyleBackColor = false;
+            this.ColorButton.Click += new System.EventHandler(this.ColorButton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(784, 600);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.GenerateCardButton);
@@ -398,6 +468,7 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ShapePanel.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -437,6 +508,14 @@
         private System.Windows.Forms.ToolStripMenuItem upraviťToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nastaveniaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uložiťAkoSVGToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zobrazSkryTextovePoleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nastaviťPozadieToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
+        private System.Windows.Forms.ToolStripMenuItem nastaviťPozadieToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem generujSúradniceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem doSúboruToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem doClipboarduToolStripMenuItem;
     }
 }
 

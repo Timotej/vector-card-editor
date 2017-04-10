@@ -209,17 +209,63 @@ namespace VectorCardEditor
 
         public void ColumnAlign()
         {
-            for (int i = 0; i < CardsList.Count; i++)
+            if (CardsList.Count > 1)
             {
-                CardsList[i].OriginPoint = new Point(300, 100 + ((CardsList[i].RealHeight + 5) * i));
+                for (int i = 1; i < CardsList.Count; i++)
+                {
+                    CardsList[i].OriginPoint = new Point(CardsList[0].OriginPoint.X, CardsList[0].OriginPoint.Y + ((CardsList[i].RealHeight + 5) * i));
+                }
             }
         }
 
         public void RowAlign()
         {
+            if (CardsList.Count > 1)
+            {
+                for (int i = 1; i < CardsList.Count; i++)
+                {
+                    CardsList[i].OriginPoint = new Point(CardsList[0].OriginPoint.X + ((CardsList[i].RealWidth + 5) * i), CardsList[0].OriginPoint.Y);
+                }
+            }
+        }
+
+        public Tuple<string, string> GenerateCardsCoordinates()
+        {
+            string xCoords = "x = [";
+            string yCoords = "y = [";
             for (int i = 0; i < CardsList.Count; i++)
             {
-                CardsList[i].OriginPoint = new Point(300 + ((CardsList[i].RealWidth + 5) * i), 100);
+                xCoords += CardsList[i].OriginPoint.X;
+                yCoords += CardsList[i].OriginPoint.Y - Form1.HEIGHT_DIFF;
+
+                xCoords = i < CardsList.Count - 1 ? xCoords + "," : xCoords;
+                yCoords = i < CardsList.Count - 1 ? yCoords + "," : yCoords;
+            }
+            xCoords += "]";
+            yCoords += "]";
+
+            return new Tuple<string, string>(xCoords, yCoords);
+        }
+
+        public void SaveCoordinatesToFile()
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if (saveFileDialog1.FileName != "")
+                {
+                    using (StreamWriter sw = File.CreateText(saveFileDialog1.FileName))
+                    {
+                        var coords = GenerateCardsCoordinates();
+                        sw.WriteLine(coords.Item1);
+                        sw.WriteLine(coords.Item2);
+                    }
+                }
             }
         }
     }

@@ -19,8 +19,8 @@ namespace VectorCardEditor
 
             InitializeComponent();
 
-            textBox1.Text = MainForm.Width.ToString();
-            textBox2.Text = (MainForm.Height - 39).ToString();
+            textBox1.Text = MainForm.ClientSize.Width.ToString();
+            textBox2.Text = (MainForm.ClientSize.Height - Form1.HEIGHT_DIFF).ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -30,8 +30,7 @@ namespace VectorCardEditor
 
             if (int.TryParse(textBox1.Text, out width) && int.TryParse(textBox2.Text, out height))
             {
-                MainForm.Width = width;
-                MainForm.Height = height + 39;
+                MainForm.ClientSize = new Size(width, height + Form1.HEIGHT_DIFF);
                 Close();
             }
             else
