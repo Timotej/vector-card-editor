@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,13 +8,6 @@ namespace VectorCardEditor
     public partial class Form1 : Form
     {
         public const int HEIGHT_DIFF = 61;
-
-        ShapeType CurrentSelectedShape;
-        Color CurrentColor = Color.White;
-        Color CurrentStrokeColor = Color.White;
-
-        Font CurrentFont = new Font(new FontFamily("Arial"), 8);
-        Color FontColor = Color.Black;
 
         CardsManager Manager = new CardsManager();
 
@@ -76,14 +70,14 @@ namespace VectorCardEditor
 
         private void EllipseButton_Click(object sender, EventArgs e)
         {
-            CurrentSelectedShape = ShapeType.Ellipse;
+            Manager.CardSetup.Shape = ShapeType.Ellipse;
             ShapePanel.Visible = false;
             foreach (var item in Manager.SelectedCardsList)
             {
                 item.Shape = new EllipseShape(item.Width, item.Height);
-                item.Shape.FillColor = CurrentColor;
-                item.Shape.StrokeColor = CurrentStrokeColor;
-                item.Shape.StrokeWidth = (int)numericUpDown1.Value;
+                item.Shape.FillColor = Manager.CardSetup.ShapeColor;
+                item.Shape.StrokeColor = Manager.CardSetup.StrokeColor;
+                item.Shape.StrokeWidth = Manager.CardSetup.StrokeWidth;
             }
             ShapeButton.Image = EllipseButton.Image;
             Refresh();
@@ -91,14 +85,14 @@ namespace VectorCardEditor
 
         private void RectangleButton_Click(object sender, EventArgs e)
         {
-            CurrentSelectedShape = ShapeType.Rectangle;
+            Manager.CardSetup.Shape = ShapeType.Rectangle;
             ShapePanel.Visible = false;
             foreach (var item in Manager.SelectedCardsList)
             {
                 item.Shape = new RectangleShape(item.Width, item.Height);
-                item.Shape.FillColor = CurrentColor;
-                item.Shape.StrokeColor = CurrentStrokeColor;
-                item.Shape.StrokeWidth = (int)numericUpDown1.Value;
+                item.Shape.FillColor = Manager.CardSetup.ShapeColor;
+                item.Shape.StrokeColor = Manager.CardSetup.StrokeColor;
+                item.Shape.StrokeWidth = Manager.CardSetup.StrokeWidth;
             }
             ShapeButton.Image = RectangleButton.Image;
 
@@ -115,11 +109,11 @@ namespace VectorCardEditor
             {
                 ColorButton.BackColor = colorDialog1.Color;
 
-                CurrentColor = colorDialog1.Color;
+                Manager.CardSetup.ShapeColor = colorDialog1.Color;
             }
             foreach (var item in Manager.SelectedCardsList)
             {
-                item.Shape.FillColor = CurrentColor;
+                item.Shape.FillColor = Manager.CardSetup.ShapeColor;
             }
             Refresh();
         }
@@ -195,7 +189,7 @@ namespace VectorCardEditor
         {
             ProcessSelectAll(e);
             ProcessDelete(e);
-
+            ProcessHideTextBox(e);
             Refresh();
         }
 
@@ -220,6 +214,18 @@ namespace VectorCardEditor
             }
         }
 
+        void ProcessHideTextBox(KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.H)
+            {
+                var item = zobrazSkryTextovePoleToolStripMenuItem;
+                item.Checked = !item.Checked;
+                textBox1.Visible = !textBox1.Visible;
+                GenerateCardButton.Visible = !GenerateCardButton.Visible;
+                label4.Visible = !label4.Visible;
+            }
+        }
+
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Manager.SaveAsSVG();
@@ -227,50 +233,69 @@ namespace VectorCardEditor
 
         private void GenerateCardButton_Click(object sender, EventArgs e)
         {
-            Manager.DeleteAllCards();
+            var origins = Manager.CardsList.Select(p => p.OriginPoint).ToList();
 
             var text = textBox1.Text;
             var split = text.Split('\n');
 
-            var width = 0f;
-            var height = 0f;
+            var width = 0.0;
+            var height = 0.0;
 
             var g = CreateGraphics();
-            foreach (var item in split)
-            {
-                var size = g.MeasureString(item, CurrentFont);
-                if (size.Width > width) width = size.Width;
-                if (size.Height > height) height = size.Height;
-            }
-            width += 20f;
-            height += 20f;
 
+            if (Manager.CardsList.Count > 0)
+            {
+                width = Manager.CardsList[0].Width;
+                height = Manager.CardsList[0].Height;
+            }
+            else
+            {
+               
+                foreach (var item in split)
+                {
+                    var size = g.MeasureString(item, Manager.CardSetup.Font);
+                    if (size.Width > width) width = size.Width;
+                    if (size.Height > height) height = size.Height;
+                }
+                width += 20f;
+                height += 20f;
+
+            }
+
+            Manager.DeleteAllCards();
             var position = 0;
             for (int i = 0; i < split.Length; i++)
             {
 
                 var card = new Card(width, height);
 
-                if (CurrentSelectedShape == ShapeType.Ellipse)
+                if (Manager.CardSetup.Shape == ShapeType.Ellipse)
                 {
                     card.Shape = new EllipseShape(card.Width, card.Height);
                 }
-                else if (CurrentSelectedShape == ShapeType.Rectangle)
+                else if (Manager.CardSetup.Shape == ShapeType.Rectangle)
                 {
                     card.Shape = new RectangleShape(card.Width, card.Height);
                 }
-                card.Shape.FillColor = CurrentColor;
-                card.Shape.StrokeColor = CurrentStrokeColor;
-                card.Shape.StrokeWidth = (int)numericUpDown1.Value;
+                card.Shape.FillColor = Manager.CardSetup.ShapeColor;
+                card.Shape.StrokeColor = Manager.CardSetup.StrokeColor;
+                card.Shape.StrokeWidth = Manager.CardSetup.StrokeWidth;
                 card.ShowGrid = true;
                 card.Text = split[i];
-                card.FontType = CurrentFont;
-                card.FontColor = FontColor;
-                card.FontSize = g.MeasureString(split[i], CurrentFont);
+                card.FontType = Manager.CardSetup.Font;
+                card.FontColor = Manager.CardSetup.FontColor;
+                card.FontSize = g.MeasureString(split[i], Manager.CardSetup.Font);
 
-                card.OriginPoint = new Point(300, 100 + (((int)card.RealHeight + 5) * position));
-                position++;
-
+                if (i < origins.Count)
+                {
+                    card.OriginPoint = origins[i];
+                }
+                else
+                {
+                    card.OriginPoint = new Point(300, 100 + (((int)card.RealHeight + 5) * position));
+                    position++;
+                }
+                
                 Manager.CardsList.Add(card);
 
             }
@@ -286,6 +311,7 @@ namespace VectorCardEditor
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Manager.OpenSingleFile();
+            RefreshSetup();
             Refresh();
         }
 
@@ -369,7 +395,7 @@ namespace VectorCardEditor
             var success = int.TryParse(comboBox2.Text, out size);
             if (!success) size = 12;
 
-            CurrentFont = new Font(new FontFamily(text), size);
+            Manager.CardSetup.Font = new Font(new FontFamily(text), size);
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -380,7 +406,7 @@ namespace VectorCardEditor
             var success = int.TryParse(comboBox2.Text, out size);
             if (!success) size = 12;
 
-            CurrentFont = new Font(new FontFamily(text), size);
+            Manager.CardSetup.Font = new Font(new FontFamily(text), size);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -390,7 +416,7 @@ namespace VectorCardEditor
             {
                 FontColorButton.BackColor = dialog.Color;
 
-                FontColor = dialog.Color;
+                Manager.CardSetup.FontColor = dialog.Color;
             }
         }
 
@@ -434,20 +460,21 @@ namespace VectorCardEditor
             {
                 StrokeColorButton.BackColor = dialog.Color;
 
-                CurrentStrokeColor = dialog.Color;
+                Manager.CardSetup.StrokeColor = dialog.Color;
             }
             foreach (var item in Manager.SelectedCardsList)
             {
-                item.Shape.StrokeColor = CurrentStrokeColor;
+                item.Shape.StrokeColor = Manager.CardSetup.StrokeColor;
             }
             Refresh();
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
+            Manager.CardSetup.StrokeWidth = (int)numericUpDown1.Value;
             foreach (var item in Manager.SelectedCardsList)
             {
-                item.Shape.StrokeWidth = (int)numericUpDown1.Value;
+                item.Shape.StrokeWidth = Manager.CardSetup.StrokeWidth;
             }
             Refresh();
         }
@@ -511,6 +538,36 @@ namespace VectorCardEditor
             var text = item.Item1 + Environment.NewLine + item.Item2;
             var form = new Form3(text);
             form.ShowDialog();
-        } 
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            Manager.CardSetup.Text = textBox1.Text;
+        }
+
+        private void RefreshSetup()
+        {
+            var setup = Manager.CardSetup;
+            textBox1.Text = setup.Text;
+            StrokeColorButton.BackColor = setup.StrokeColor;
+            ColorButton.BackColor = setup.ShapeColor;
+            numericUpDown1.Value = setup.StrokeWidth;
+            FontColorButton.BackColor = setup.FontColor;
+
+            if (setup.Shape == ShapeType.Ellipse)
+            {
+                ShapeButton.Image = EllipseButton.Image;
+            }
+            else if (setup.Shape == ShapeType.Rectangle)
+            {
+                ShapeButton.Image = RectangleButton.Image;
+            }
+
+            var size = (int)setup.Font.Size;
+            var fontName = setup.Font.FontFamily.Name;
+
+            comboBox1.Text = fontName;
+            comboBox2.Text = size.ToString();
+        }
     }
 }

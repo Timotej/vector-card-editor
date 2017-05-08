@@ -101,8 +101,10 @@ namespace VectorCardEditor
         public void SaveIntoSingleSVG(XmlDocument doc)
         {
             var node = doc.CreateElement("g");
-            node.AppendChild(Shape.GetXmlFormat(doc, new Point(OriginPoint.X - 300, OriginPoint.Y - 100)));
-            node.AppendChild(SaveText(doc, OriginPoint.X - 300, OriginPoint.Y - 100));
+            //node.AppendChild(Shape.GetXmlFormat(doc, new Point(OriginPoint.X - 300, OriginPoint.Y - 100)));
+            //node.AppendChild(SaveText(doc, OriginPoint.X - 300, OriginPoint.Y - 100));
+            node.AppendChild(Shape.GetXmlFormat(doc, new Point(OriginPoint.X, OriginPoint.Y)));
+            node.AppendChild(SaveText(doc, OriginPoint.X, OriginPoint.Y));
             doc.DocumentElement.SelectSingleNode("/svg").AppendChild(node);
         }
 

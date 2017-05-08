@@ -11,3 +11,4 @@ C:\Users\Timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCa
 C:\Users\Timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Debug\VectorCardEditor.application
 C:\Users\Timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Debug\VectorCardEditor.exe
 C:\Users\Timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Debug\VectorCardEditor.pdb
+C:\Users\Timotej\documents\visual studio 2015\Projects\VectorCardEditor\VectorCardEditor\obj\Debug\VectorCardEditor.csprojResolveAssemblyReference.cache

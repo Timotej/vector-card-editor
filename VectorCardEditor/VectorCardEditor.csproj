@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Card.cs" />
+    <Compile Include="CardSetup.cs" />
     <Compile Include="CardsManager.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

@@ -17,6 +17,8 @@ namespace VectorCardEditor
         public List<Card> CardsList { get; private set; } = new List<Card>();
         public List<Card> SelectedCardsList { get; private set; } = new List<Card>();
 
+        public CardSetup CardSetup { get; set; } = new CardSetup();
+
         public CardsManager()
         {
 
@@ -110,6 +112,8 @@ namespace VectorCardEditor
                         SelectedCardsList.Clear();
                         SelectedCardsList = null;
                         SelectedCardsList = newInstance.SelectedCardsList;
+
+                        CardSetup = newInstance.CardSetup;
                     }
                     catch (SerializationException e)
                     {
@@ -140,9 +144,11 @@ namespace VectorCardEditor
                     var declaration = doc.CreateXmlDeclaration("1.0", "UTF-8", "no");
                     doc.AppendChild(declaration);
 
+                    var size = FindSize();
+
                     var svgNode = doc.CreateElement("svg");
-                    svgNode.SetAttribute("width", "100");
-                    svgNode.SetAttribute("height", "100");
+                    svgNode.SetAttribute("width", size.Width.ToString());
+                    svgNode.SetAttribute("height", size.Height.ToString());
                     doc.AppendChild(svgNode);
 
                     foreach (var item in CardsList)
@@ -150,9 +156,41 @@ namespace VectorCardEditor
                         item.SaveIntoSingleSVG(doc);
                     }
 
+                    for(int i = 0; i<CardsList.Count; i++)
+                    {
+                        CardsList[i].OriginPoint = OriginPoints[i];
+                    }
+
                     doc.Save(saveFileDialog1.FileName);
                 }
             }
+        }
+
+        List<Point> OriginPoints;
+        Size FindSize()
+        {
+            OriginPoints = CardsList.Select(p => p.OriginPoint).ToList();
+
+            var minX = double.MaxValue;
+            var minY = double.MaxValue;
+
+            var maxX = double.MinValue;
+            var maxY = double.MinValue;
+
+            foreach (var item in CardsList)
+            {
+                if (item.OriginPoint.X < minX) minX = item.OriginPoint.X;
+                if (item.OriginPoint.Y < minY) minY = item.OriginPoint.Y;
+                if (item.OriginPoint.X + item.RealWidth > maxX) maxX = item.OriginPoint.X + item.RealWidth;
+                if (item.OriginPoint.Y + item.RealHeight > maxY) maxY = item.OriginPoint.Y + item.RealHeight;
+            }
+
+            foreach (var item in CardsList)
+            {
+                item.OriginPoint = new Point((int)(item.OriginPoint.X - minX), (int)(item.OriginPoint.Y - minY)); 
+            }
+
+            return new Size((int)(maxX - minX), (int)(maxY - minY));
         }
 
         public void DeleteSelectedCards()
