@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VectorCardEditor.exe" size="37776">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VectorCardEditor.exe" size="46992">
       <assemblyIdentity name="VectorCardEditor" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>m1i/MhnOxrRu+cNi9RgxUlITaVg=</dsig:DigestValue>
+        <dsig:DigestValue>GDpFVxG0L6kPXQYRFDVOiHCDQJE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

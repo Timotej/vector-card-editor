@@ -66,13 +66,14 @@ namespace VectorCardEditor
 
         void DrawText(Graphics g, Point originPoint)
         {
-            var rectF = new RectangleF(originPoint.X, originPoint.Y, (float)Width, (float)Height);
+            //var rectF = new RectangleF(originPoint.X, originPoint.Y, (float)Width, (float)Height);
+            var rectF = new Rectangle(originPoint.X, originPoint.Y, (int)Width, (int)Height);
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
 
-            
             g.DrawString(Text, FontType, new SolidBrush(FontColor), rectF, stringFormat);
+            //TextRenderer.DrawText(g, Text, FontType, rectF, Color.Red, Color.Black, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.GlyphOverhangPadding);
         }
 
         public void LoadCard(string path)

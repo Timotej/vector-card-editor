@@ -236,8 +236,8 @@ namespace VectorCardEditor
             var origins = Manager.CardsList.Select(p => p.OriginPoint).ToList();
 
             var text = textBox1.Text;
-            var split = text.Split('\n');
-
+            var split = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            
             var width = 0.0;
             var height = 0.0;
 
